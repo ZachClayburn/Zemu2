@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Set the project name to your project name, my project isn't very descriptive
-project(myproject CXX)
+project(Zemu2 CXX)
 include(cmake/StandardProjectSettings.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
@@ -14,7 +14,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     add_compile_definitions(project_options INTERFACE -ftime-trace)
   endif()
 endif()
- 
+
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 
@@ -41,8 +41,8 @@ option(ENABLE_PCH "Enable Precompiled Headers" OFF)
 if (ENABLE_PCH)
   # This sets a global PCH parameter, each project will build its own PCH, which
   # is a good idea if any #define's change
-  # 
-  # consider breaking this out per project as necessary 
+  #
+  # consider breaking this out per project as necessary
   target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
 endif()
 
@@ -52,20 +52,16 @@ endif()
 set(CONAN_EXTRA_REQUIRES "")
 set(CONAN_EXTRA_OPTIONS "")
 
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
-                           imgui-sfml/2.1@bincrafters/stable)
+set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+                       imgui-sfml/2.1@bincrafters/stable)
 
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False
-  # sfml:graphics=True sfml:audio=False sfml:window=True
-  # libalsa:disable_python=True)
-endif()
+# set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False
+# sfml:graphics=True sfml:audio=False sfml:window=True
+# libalsa:disable_python=True)
 
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
-                           sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-endif()
+set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+                       sdl2/2.0.9@bincrafters/stable)
+# set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
 
 
 include(cmake/Conan.cmake)

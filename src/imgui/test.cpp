@@ -12,12 +12,12 @@ int main()
   window.setFramerateLimit(60);
   ImGui::SFML::Init(window);
 
-  sf::CircleShape shape(100.f);
+  sf::CircleShape shape(100.F);
   shape.setFillColor(sf::Color::Green);
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
-    sf::Event event;
+    sf::Event event{};
     while (window.pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
 
