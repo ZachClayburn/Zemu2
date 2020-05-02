@@ -1,5 +1,9 @@
-//
-// Created by zach on 5/2/20.
-//
-
 #include "GameBoy.h"
+
+#include "BootRom.h"
+
+
+GameBoy::GameBoy()
+  : bootRom(std::make_shared<BootRom>()) {
+    devices[0] = bootRom;
+}

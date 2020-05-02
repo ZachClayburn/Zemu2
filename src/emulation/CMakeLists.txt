@@ -1,6 +1,7 @@
 add_library(
         emulation
         GameBoy.cpp
+        BootRom.cpp
 )
 
 target_include_directories(
