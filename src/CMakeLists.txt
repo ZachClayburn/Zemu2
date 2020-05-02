@@ -3,6 +3,7 @@ add_subdirectory(qt)
 add_subdirectory(imgui)
 
 add_subdirectory(interface)
+add_subdirectory(emulation)
 
 add_executable(
         intro
