@@ -1,10 +1,10 @@
-#include "Screen.h"
+#include "MainWindow.h"
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
-Screen::Screen() {
+MainWindow::MainWindow() {
     
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(SDL_GetError());
@@ -36,7 +36,7 @@ Screen::Screen() {
         throw std::runtime_error(SDL_GetError());
     }
 }
-Screen::~Screen() {
+MainWindow::~MainWindow() {
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);
     }
@@ -47,16 +47,16 @@ Screen::~Screen() {
         SDL_DestroyWindow(window);
     }
 }
-void Screen::pause(uint32_t ms) {
+void MainWindow::pause(uint32_t ms) {
     SDL_Delay(ms);
 }
-void Screen::updateDisplay(const std::array<Pixel, PIXEL_COUNT> &buffer) {
+void MainWindow::updateDisplay(const std::array<Pixel, PIXEL_COUNT> &buffer) {
     SDL_UpdateTexture(texture, nullptr, buffer.data(), GAMEBOY_WIDTH * sizeof(uint8_t) * 3);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
 }
-Screen &Screen::get() {
-    static Screen instance;
+MainWindow &MainWindow::get() {
+    static MainWindow instance;
     return instance;
 }

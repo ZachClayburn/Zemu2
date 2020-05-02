@@ -2,8 +2,8 @@
 // Created by zach on 4/30/20.
 //
 
-#ifndef ZEMU2_SCREEN_H
-#define ZEMU2_SCREEN_H
+#ifndef ZEMU2_MAINWINDOW_H
+#define ZEMU2_MAINWINDOW_H
 
 #include <cstdint>
 #include <string>
@@ -20,14 +20,13 @@ struct Pixel
     uint8_t blue{ 0 };
 };
 
-class Screen
+class MainWindow
 {
   public:
-
-    Screen(Screen const &screen) = delete;
-    Screen(Screen const &&screen) = delete;
-    void operator=(Screen const &screen) = delete;
-    void operator=(Screen const &&screen) = delete;
+    MainWindow(MainWindow const &screen) = delete;
+    MainWindow(MainWindow const &&screen) = delete;
+    void operator=(MainWindow const &screen) = delete;
+    void operator=(MainWindow const &&screen) = delete;
 
     static const uint16_t GAMEBOY_WIDTH = 160;
     static const uint16_t GAMEBOY_HEIGHT = 144;
@@ -35,14 +34,14 @@ class Screen
 
     void updateDisplay(const std::array<Pixel, PIXEL_COUNT> &buffer);
     
-    static Screen& get();
+    static MainWindow & get();
 
     //TODO Remove this when not needed for debugging
     static void pause(uint32_t ms);
 
   private:
-    explicit Screen();
-    virtual ~Screen();
+    explicit MainWindow();
+    virtual ~MainWindow();
 
     SDL_Window *window{ nullptr };
     SDL_Renderer *renderer{ nullptr };
@@ -52,4 +51,4 @@ class Screen
 };
 
 
-#endif//ZEMU2_SCREEN_H
+#endif//ZEMU2_MAINWINDOW_H

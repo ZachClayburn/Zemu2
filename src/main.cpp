@@ -1,11 +1,11 @@
-#include "Screen.h"
+#include "MainWindow.h"
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
 int main(int /*argc*/, const char ** /*argv*/) {
     try {
-        Screen::get();
-        Screen::pause(1000);
+        MainWindow::get();
+        MainWindow::pause(1000);
     } catch (std::runtime_error &error) {
         spdlog::error(error.what());
     }
