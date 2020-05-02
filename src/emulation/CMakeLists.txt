@@ -2,7 +2,7 @@ add_library(
         emulation
         GameBoy.cpp
         BootRom.cpp
-)
+        IRamBank.cpp IRamBank.h RamBank.cpp RamBank.h RamEcho.cpp RamEcho.h)
 
 target_include_directories(
         emulation PUBLIC

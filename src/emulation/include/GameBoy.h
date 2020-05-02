@@ -10,6 +10,7 @@
 
 class ReadWriteDevice;
 class BootRom;
+class IRamBank;
 
 class GameBoy
 {
@@ -18,10 +19,12 @@ class GameBoy
     ~GameBoy() = default;
   private:
     
-    static const size_t NUM_DEVICES = 1;
+    static const size_t NUM_DEVICES = 4;
     std::array<std::shared_ptr<ReadWriteDevice>, NUM_DEVICES> devices;
     
     std::shared_ptr<BootRom> bootRom;
+    std::shared_ptr<IRamBank> wRam;
+    std::shared_ptr<IRamBank> hRam;
     
 };
 

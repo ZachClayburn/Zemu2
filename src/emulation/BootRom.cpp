@@ -10,7 +10,7 @@ uint8_t BootRom::read(uint16_t addr) {
 
 void BootRom::write(uint16_t addr, uint8_t val) {
     if (addr == BOOT_REG_ADDR and val == BOOT_REG_SHUTDOWN){
-        enabled == false;
+        enabled = false;
     }
 }
 
