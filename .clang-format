@@ -6,15 +6,15 @@ AlignEscapedNewlines: Left
 AlignOperands: true
 AlignTrailingComments: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: true
+AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: Always
 AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
-AlwaysBreakTemplateDeclarations: false
+AlwaysBreakTemplateDeclarations: No
 BinPackArguments: false
 BinPackParameters: false
 BraceWrapping:
@@ -92,7 +92,7 @@ SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
+Standard: c++11
 TabWidth: 8
 UseTab: Never
 
