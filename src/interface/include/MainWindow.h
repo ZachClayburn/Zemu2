@@ -8,17 +8,13 @@
 #include <cstdint>
 #include <string>
 #include <array>
+#include <memory>
+#include "Pixel.h"
+#include "ScreenConstants.h"
 
 class SDL_Window;
 class SDL_Renderer;
 class SDL_Texture;
-
-struct Pixel
-{
-    uint8_t red{ 0 };
-    uint8_t green{ 0 };
-    uint8_t blue{ 0 };
-};
 
 class MainWindow
 {
@@ -28,14 +24,10 @@ class MainWindow
     void operator=(MainWindow const &screen) = delete;
     void operator=(MainWindow const &&screen) = delete;
 
-    static const uint16_t GAMEBOY_WIDTH = 160;
-    static const uint16_t GAMEBOY_HEIGHT = 144;
-    static const uint16_t PIXEL_COUNT = GAMEBOY_WIDTH * GAMEBOY_HEIGHT;
-
-    void updateDisplay(const std::array<Pixel, PIXEL_COUNT> &buffer);
+    static void updateDisplay();
+    [[nodiscard]] std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> getScreenBuffer();
+    static MainWindow &get();
     
-    static MainWindow & get();
-
     //TODO Remove this when not needed for debugging
     static void pause(uint32_t ms);
 
@@ -46,6 +38,8 @@ class MainWindow
     SDL_Window *window{ nullptr };
     SDL_Renderer *renderer{ nullptr };
     SDL_Texture *texture{ nullptr };
+    
+    std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer;
 
     static const int SCALE = 5;
 };

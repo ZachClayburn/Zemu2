@@ -7,16 +7,18 @@
 
 #include <array>
 #include <memory>
+#include "Pixel.h"
+#include "ScreenConstants.h"
 
 class ReadWriteDevice;
 class BootRom;
 class IRamBank;
+class PPU;
 
 class GameBoy
 {
   public:
-    GameBoy();
-    ~GameBoy() = default;
+    explicit GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer);
   private:
     
     static const size_t NUM_DEVICES = 4;
@@ -25,6 +27,8 @@ class GameBoy
     std::shared_ptr<BootRom> bootRom;
     std::shared_ptr<IRamBank> wRam;
     std::shared_ptr<IRamBank> hRam;
+    
+    std::shared_ptr<PPU> ppu;
     
 };
 

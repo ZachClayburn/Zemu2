@@ -2,7 +2,15 @@ add_library(
         emulation
         GameBoy.cpp
         BootRom.cpp
-        IRamBank.cpp IRamBank.h RamBank.cpp RamBank.h RamEcho.cpp RamEcho.h)
+        IRamBank.cpp
+        IRamBank.h
+        RamBank.cpp
+        RamBank.h
+        RamEcho.cpp
+        RamEcho.h
+        PPU.cpp
+        PPU.h
+)
 
 target_include_directories(
         emulation PUBLIC
@@ -14,5 +22,5 @@ target_link_libraries(
         project_options
         project_warnings
         CONAN_PKG::spdlog
-        interface
+        common
 )

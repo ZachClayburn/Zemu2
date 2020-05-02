@@ -16,4 +16,5 @@ target_link_libraries(
         CONAN_PKG::fmt
         CONAN_PKG::spdlog
         CONAN_PKG::sdl2
+        common
 )

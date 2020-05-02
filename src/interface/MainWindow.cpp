@@ -5,13 +5,13 @@
 #include <spdlog/spdlog.h>
 
 MainWindow::MainWindow() {
-    
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(SDL_GetError());
     }
-    
+
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-    
+
     window = SDL_CreateWindow(
       "Zemu",
       SDL_WINDOWPOS_UNDEFINED,
@@ -28,10 +28,13 @@ MainWindow::MainWindow() {
         throw std::runtime_error(SDL_GetError());
     }
     SDL_RenderSetLogicalSize(renderer, GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
-    
+
     texture = SDL_CreateTexture(renderer,
-      SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
-    
+      SDL_PIXELFORMAT_RGB24,
+      SDL_TEXTUREACCESS_STREAMING,
+      GAMEBOY_WIDTH,
+      GAMEBOY_HEIGHT);
+
     if (window == nullptr) {
         throw std::runtime_error(SDL_GetError());
     }
@@ -50,13 +53,17 @@ MainWindow::~MainWindow() {
 void MainWindow::pause(uint32_t ms) {
     SDL_Delay(ms);
 }
-void MainWindow::updateDisplay(const std::array<Pixel, PIXEL_COUNT> &buffer) {
-    SDL_UpdateTexture(texture, nullptr, buffer.data(), GAMEBOY_WIDTH * sizeof(uint8_t) * 3);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
-    SDL_RenderPresent(renderer);
+void MainWindow::updateDisplay() {
+    auto &window = MainWindow::get();
+    SDL_UpdateTexture(window.texture, nullptr, window.screenBuffer->data(), GAMEBOY_WIDTH * sizeof(uint8_t) * 3);
+    SDL_RenderClear(window.renderer);
+    SDL_RenderCopy(window.renderer, window.texture, nullptr, nullptr);
+    SDL_RenderPresent(window.renderer);
 }
 MainWindow &MainWindow::get() {
     static MainWindow instance;
     return instance;
+}
+std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> MainWindow::getScreenBuffer() {
+    return screenBuffer;
 }
