@@ -2,8 +2,8 @@ add_library(
         emulation
         GameBoy.cpp
         BootRom.cpp
-        IRamBank.cpp
-        IRamBank.h
+        AbstractRamBank.cpp
+        AbstractRamBank.h
         RamBank.cpp
         RamBank.h
         RamEcho.cpp

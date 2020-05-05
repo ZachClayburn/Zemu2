@@ -12,7 +12,7 @@
 
 class ReadWriteDevice;
 class BootRom;
-class IRamBank;
+class AbstractRamBank;
 class PPU;
 
 class GameBoy
@@ -25,8 +25,8 @@ class GameBoy
     std::array<std::shared_ptr<ReadWriteDevice>, NUM_DEVICES> devices;
     
     std::shared_ptr<BootRom> bootRom;
-    std::shared_ptr<IRamBank> wRam;
-    std::shared_ptr<IRamBank> hRam;
+    std::shared_ptr<AbstractRamBank> wRam;
+    std::shared_ptr<AbstractRamBank> hRam;
     
     std::shared_ptr<PPU> ppu;
     

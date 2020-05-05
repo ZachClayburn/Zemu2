@@ -2,9 +2,9 @@
 #define ZEMU2_RAMBANK_H
 
 #include <vector>
-#include "IRamBank.h"
+#include "AbstractRamBank.h"
 
-class RamBank : public IRamBank
+class RamBank : public AbstractRamBank
 {
   public:
     RamBank(uint16_t bankSize, uint16_t startAddr);

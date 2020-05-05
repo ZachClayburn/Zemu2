@@ -13,6 +13,6 @@ GameBoy::GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, v
     int i = 0;
     devices.at(i++) = bootRom;
     devices.at(i++) = wRam;
-    devices.at(i++) = IRamBank::getEcho(0xE000U, wRam);
+    devices.at(i++) = AbstractRamBank::getEcho(0xE000U, wRam);
     devices.at(i++) = hRam;
 }

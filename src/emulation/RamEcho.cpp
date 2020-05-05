@@ -3,8 +3,8 @@
 #include <utility>
 #include <stdexcept>
 
-RamEcho::RamEcho(uint16_t startAddr, uint16_t stopAddr, std::weak_ptr<IRamBank> echoedRam)
-  : IRamBank(startAddr, stopAddr), echoedBank(std::move(echoedRam)) {
+RamEcho::RamEcho(uint16_t startAddr, uint16_t stopAddr, std::weak_ptr<AbstractRamBank> echoedRam)
+  : AbstractRamBank(startAddr, stopAddr), echoedBank(std::move(echoedRam)) {
 }
 
 uint8_t RamEcho::read(uint16_t addr) {

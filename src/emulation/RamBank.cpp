@@ -2,7 +2,7 @@
 
 
 RamBank::RamBank(uint16_t bankSize, uint16_t startAddr)
-  : IRamBank(startAddr, startAddr + bankSize),
+  : AbstractRamBank(startAddr, startAddr + bankSize),
     memory(bankSize) {
     //TODO Random initialize RAM on create
 }
