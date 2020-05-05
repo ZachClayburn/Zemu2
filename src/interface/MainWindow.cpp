@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
-MainWindow::MainWindow() {
+MainWindow::MainWindow() : screenBuffer(std::make_shared<std::array<Pixel, PIXEL_COUNT>>()){
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(SDL_GetError());

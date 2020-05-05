@@ -18,7 +18,7 @@ class PPU;
 class GameBoy
 {
   public:
-    explicit GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer);
+    GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
   private:
     
     static const size_t NUM_DEVICES = 4;

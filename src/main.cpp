@@ -7,7 +7,7 @@ int main(int /*argc*/, const char ** /*argv*/) {
     try {
         auto &window = MainWindow::get();
         auto buffer = window.getScreenBuffer();
-        GameBoy gameBoy(buffer);
+        GameBoy gameBoy(buffer, &MainWindow::updateDisplay);
         MainWindow::pause(1000);
     } catch (std::runtime_error &error) {
         spdlog::error(error.what());

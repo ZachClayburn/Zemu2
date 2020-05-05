@@ -4,11 +4,11 @@
 #include "RamBank.h"
 #include "PPU.h"
 
-GameBoy::GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer)
+GameBoy::GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)())
   : bootRom(std::make_shared<BootRom>()),
     wRam(std::make_shared<RamBank>(8 * 1024, 0xC000U)),
     hRam(std::make_shared<RamBank>(126, 0xFF80U)),
-    ppu(std::make_shared<PPU>(std::move(screenBuffer))) {
+    ppu(std::make_shared<PPU>(std::move(screenBuffer), screenCallback)) {
 
     int i = 0;
     devices.at(i++) = bootRom;
