@@ -10,7 +10,9 @@ add_library(
         RamEcho.h
         PPU.cpp
         PPU.h
-)
+        BasicRegister.cpp
+        BasicRegister.h
+        Pallet.cpp Pallet.h LCDCRegister.cpp LCDCRegister.h STATRegister.cpp STATRegister.h)
 
 target_include_directories(
         emulation PUBLIC
