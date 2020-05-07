@@ -4,7 +4,7 @@
 
 #include "BasicRegister.h"
 
-class LCDCRegister : BasicRegister
+class LCDCRegister : public BasicRegister
 {
   public:
     explicit LCDCRegister(uint16_t addr);

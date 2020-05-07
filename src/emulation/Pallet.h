@@ -5,7 +5,7 @@
 
 #include "ReadWriteDevice.h"
 
-class Pallet : ReadWriteDevice
+class Pallet : public ReadWriteDevice
 {
   public:
     enum Shade : uint8_t {

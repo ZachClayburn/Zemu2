@@ -21,14 +21,15 @@ class GameBoy
     GameBoy(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
   private:
     
-    static const size_t NUM_DEVICES = 4;
+    static const size_t NUM_DEVICES = 17;
     std::array<std::shared_ptr<ReadWriteDevice>, NUM_DEVICES> devices;
+    
+    std::shared_ptr<PPU> ppu;
     
     std::shared_ptr<BootRom> bootRom;
     std::shared_ptr<AbstractRamBank> wRam;
     std::shared_ptr<AbstractRamBank> hRam;
     
-    std::shared_ptr<PPU> ppu;
     
 };
 

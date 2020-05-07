@@ -4,7 +4,7 @@
 
 #include "BasicRegister.h"
 
-class STATRegister : BasicRegister
+class STATRegister : public BasicRegister
 {
   public:
     enum MODE : uint8_t {

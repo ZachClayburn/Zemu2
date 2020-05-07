@@ -28,3 +28,55 @@ PPU::PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*sc
     DMA(std::make_shared<BasicRegister>(DMA_ADDR)) {
     spdlog::info("PPU Constructed");
 }
+
+std::shared_ptr<ReadWriteDevice> PPU::getVRam() const {
+    return vRam;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getBgp() const {
+    return BGP;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getObp0() const {
+    return OBP0;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getObp1() const {
+    return OBP1;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getLcdc() const {
+    return LCDC;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getStat() const {
+    return STAT;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getScy() const {
+    return SCY;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getScx() const {
+    return SCX;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getLy() const {
+    return LY;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getLyc() const {
+    return LYC;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getWy() const {
+    return WY;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getWx() const {
+    return WX;
+}
+
+std::shared_ptr<ReadWriteDevice> PPU::getDma() const {
+    return DMA;
+}

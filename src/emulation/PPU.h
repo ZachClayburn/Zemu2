@@ -11,12 +11,27 @@ class BasicRegister;
 class Pallet;
 class LCDCRegister;
 class STATRegister;
+class ReadWriteDevice;
 
 class PPU
 {
   public:
     explicit PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
-
+    
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getVRam() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getBgp() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getObp0() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getObp1() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getLcdc() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getStat() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getScy() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getScx() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getLy() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getLyc() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getWy() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getWx() const;
+    [[nodiscard]] std::shared_ptr<ReadWriteDevice> getDma() const;
+  
   private:
     std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> buffer;
     void (*updateScreen)();
