@@ -11,11 +11,8 @@ class BasicRegister : public ReadWriteDevice
     uint8_t read(uint16_t addr) override;
     void write(uint16_t addr, uint8_t val) override;
     bool accepts(uint16_t addr) override;
-
-  protected:
-    [[nodiscard]] bool readBit(uint16_t bit) const;
     [[nodiscard]] uint8_t getRegVal() const;
-
+  
   private:
     uint16_t regAddr;
     uint8_t regVal{ 0x00U };

@@ -12,7 +12,7 @@ add_library(
         PPU.h
         BasicRegister.cpp
         BasicRegister.h
-        Pallet.cpp Pallet.h LCDCRegister.cpp LCDCRegister.h STATRegister.cpp STATRegister.h)
+        Pallet.cpp Pallet.h LCDCRegister.cpp LCDCRegister.h STATRegister.cpp STATRegister.h bitUtils.h)
 
 target_include_directories(
         emulation PUBLIC

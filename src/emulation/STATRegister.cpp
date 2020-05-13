@@ -1,23 +1,24 @@
 #include "STATRegister.h"
+#include "bitUtils.h"
 
 bool STATRegister::coincidenceInterruptEnabled() {
     const uint8_t BIT = 6;
-    return readBit(BIT);
+    return readBit(getRegVal(), BIT);
 }
 
 bool STATRegister::oamInterruptEnabled() {
     const uint8_t BIT = 5;
-    return readBit(BIT);
+    return readBit(getRegVal(), BIT);
 }
 
 bool STATRegister::vBlankInterruptEnabled() {
     const uint8_t BIT = 4;
-    return readBit(BIT);
+    return readBit(getRegVal(), BIT);
 }
 
 bool STATRegister::hBlankInterruptEnabled() {
     const uint8_t BIT = 3;
-    return readBit(BIT);
+    return readBit(getRegVal(), BIT);
 }
 
 bool STATRegister::coincidenceFlag() const {

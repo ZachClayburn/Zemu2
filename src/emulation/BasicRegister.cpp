@@ -14,10 +14,6 @@ bool BasicRegister::accepts(uint16_t addr) {
     return addr == regAddr;
 }
 
-bool BasicRegister::readBit(uint16_t bit) const {
-    return static_cast<bool>(regVal & (0b1U << bit));
-}
-
 uint8_t BasicRegister::getRegVal() const {
     return regVal;
 }
