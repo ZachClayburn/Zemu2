@@ -15,7 +15,7 @@ class ReadWriteDevice;
 class PPU
 {
   public:
-    explicit PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
+    PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
 
     void clock();
 
