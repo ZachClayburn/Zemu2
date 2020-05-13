@@ -45,6 +45,7 @@ class PPU
     void OAM_TRANSFER();
 
     void drawScanLine();
+    void moveScanLine();
 
     std::shared_ptr<AbstractRamBank> vRam;
 

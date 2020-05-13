@@ -17,3 +17,7 @@ bool BasicRegister::accepts(uint16_t addr) {
 uint8_t BasicRegister::getRegVal() const {
     return regVal;
 }
+
+void BasicRegister::setRegVal(uint8_t val) {
+    regVal = val;
+}

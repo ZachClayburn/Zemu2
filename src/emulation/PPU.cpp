@@ -46,9 +46,11 @@ PPU::PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*sc
 }
 
 const constexpr int H_BLANK_CLOCKS = 204;
-const constexpr int V_BLANK_CLOCKS = 4560;
 const constexpr int OAM_SEARCH_CLOCKS = 80;
 const constexpr int OAM_TRANSFER_CLOCKS = 172;
+const constexpr int VIDEO_CYCLE_CLOCKS = H_BLANK_CLOCKS + OAM_SEARCH_CLOCKS + OAM_TRANSFER_CLOCKS;
+const constexpr int V_BLANK_CYCLES = 10;
+const constexpr int V_BLANK_CLOCKS = VIDEO_CYCLE_CLOCKS * V_BLANK_CYCLES;
 
 void PPU::clock() {
     if (!LCDC->displayEnable()) {
@@ -77,13 +79,26 @@ void PPU::H_BLANK() {
         return;
     }
     cycleClocks = 0;
+
+    moveScanLine();
+    if (LY->getRegVal() == GAMEBOY_HEIGHT) {
+        STAT->setMode(STATRegister::V_BLANK);
+        //TODO Trigger appropriate interrupts
+    } else {
+        STAT->setMode(STATRegister::OAM_SEARCH);
+        //TODO Trigger appropriate interrupts
+    }
 }
 
 void PPU::V_BLANK() {
-    if (cycleClocks < V_BLANK_CLOCKS) {
-        return;
+    if ((cycleClocks + 1) % VIDEO_CYCLE_CLOCKS == 0) {
+        moveScanLine();
     }
-    cycleClocks = 0;
+    if (cycleClocks == V_BLANK_CLOCKS) {
+        cycleClocks = 0;
+        STAT->setMode(STATRegister::OAM_SEARCH);
+        //TODO Trigger appropriate interrupts
+    }
 }
 
 void PPU::OAM_SEARCH() {
@@ -91,6 +106,7 @@ void PPU::OAM_SEARCH() {
         return;
     }
     cycleClocks = 0;
+    STAT->setMode(STATRegister::OAM_TRANSFER);
 }
 
 void PPU::OAM_TRANSFER() {
@@ -148,7 +164,7 @@ void PPU::drawScanLine() {
             }
 
             Pallet::Shade shade = (*BGP)[colorNumber];
-            
+
             //TODO Make a better more reusable way to get the color
             uint8_t brightness{ 0 };
             switch (shade) {
@@ -180,6 +196,13 @@ void PPU::drawScanLine() {
     }
     if (LCDC->objEnable()) {
         //TODO Render objects
+    }
+}
+
+void PPU::moveScanLine() {
+    LY->setRegVal((LY->getRegVal() + 1) % (GAMEBOY_HEIGHT + V_BLANK_CYCLES));
+    if (LY->getRegVal() == LYC->getRegVal()){
+        //TODO Trigger correct interrupt
     }
 }
 
