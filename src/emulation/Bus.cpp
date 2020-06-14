@@ -7,7 +7,7 @@ Bus::Bus(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*sc
   : ppu(std::move(screenBuffer), screenCallback),
     bootRom(std::make_shared<BootRom>()),
     wRam(std::make_shared<RamBank>(8 * 1024, 0xC000U)),
-    hRam(std::make_shared<RamBank>(126, 0xFF80U)) {
+    hRam(std::make_shared<RamBank>(126, 0xFF80U)), cpu(this) {
     
     int i = 0;
     devices.at(i++) = bootRom;
@@ -30,5 +30,6 @@ Bus::Bus(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*sc
     
 }
 void Bus::clock() {
+    cpu.clock();
     ppu.clock();
 }

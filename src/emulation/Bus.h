@@ -7,6 +7,7 @@
 #include "ReadWriteDevice.h"
 #include "PPU.h"
 #include "BootRom.h"
+#include "CPU.h"
 
 class Bus
 {
@@ -19,6 +20,7 @@ class Bus
     std::array<std::shared_ptr<ReadWriteDevice>, NUM_DEVICES> devices;
     
     PPU ppu;
+    CPU cpu;
     
     std::shared_ptr<BootRom> bootRom;
     std::shared_ptr<AbstractRamBank> wRam;

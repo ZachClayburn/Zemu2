@@ -1,18 +1,20 @@
 add_library(
         emulation
         GameBoy.cpp
-        BootRom.cpp
-        AbstractRamBank.cpp
-        AbstractRamBank.h
-        RamBank.cpp
-        RamBank.h
-        RamEcho.cpp
-        RamEcho.h
-        PPU.cpp
-        PPU.h
-        BasicRegister.cpp
-        BasicRegister.h
-        Pallet.cpp Pallet.h LCDCRegister.cpp LCDCRegister.h STATRegister.cpp STATRegister.h bitUtils.h Bus.cpp Bus.h)
+        Bus.cpp Bus.h
+        PPU.cpp PPU.h
+        CPU.cpp CPU.h
+        Instruction.cpp Instruction.h
+        BootRom.cpp BootRom.h
+        AbstractRamBank.cpp AbstractRamBank.h
+        RamBank.cpp RamBank.h
+        RamEcho.cpp RamEcho.h
+        BasicRegister.cpp BasicRegister.h
+        Pallet.cpp Pallet.h
+        LCDCRegister.cpp LCDCRegister.h
+        STATRegister.cpp STATRegister.h
+        bitUtils.cpp bitUtils.h
+        CPURegisters.cpp CPURegisters.h Operation.cpp Operation.h OpTables.cpp OpTables.h)
 
 target_include_directories(
         emulation PUBLIC
