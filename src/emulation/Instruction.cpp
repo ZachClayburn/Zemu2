@@ -9,13 +9,13 @@ Instruction::Instruction()
 Instruction::Instruction(uint8_t opcodeIn, std::string labelIn, std::vector<Operation*> opsIn)
   : opcode{ opcodeIn }, label(std::move(labelIn)), ops(std::move(opsIn)) {}
 
-std::optional<Operation*> Instruction::clock() {
+void Instruction::clock() {
     if (++clockCount < ops.at(instructionNum)->getLength()) {
-        return std::nullopt;
+        return;
     }
     
     clockCount = 0;
-    return std::make_optional(ops.at(instructionNum++));
+    interimValue = (*ops.at(instructionNum++))(interimValue);
 }
 
 bool Instruction::isDone() {

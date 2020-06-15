@@ -3,6 +3,7 @@
 
 
 #include <cstdint>
+#include <variant>
 
 class Operation
 {
@@ -12,7 +13,7 @@ class Operation
     
     [[nodiscard]] uint8_t getLength() const;
 
-    virtual void operator()() = 0;
+    virtual std::variant<uint8_t, uint16_t> operator()(std::variant<uint8_t, uint16_t>) = 0;
 
   private:
     uint8_t length;

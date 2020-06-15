@@ -17,10 +17,7 @@ void CPU::clock() {
             auto opcode = bus->read(registers->getPC());
             instruction = tables[opcode](bus, registers.get());
         } else {
-            auto operation = instruction.clock();
-            if (operation.has_value()){
-                (*operation.value())();
-            }
+            instruction.clock();
         }
         break;
     case HALTED:
