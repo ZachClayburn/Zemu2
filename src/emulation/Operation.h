@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <variant>
 
+using interimValue_t = std::variant<std::monostate, uint8_t, uint16_t>;
+
 class Operation
 {
   public:
@@ -13,7 +15,7 @@ class Operation
     
     [[nodiscard]] uint8_t getLength() const;
 
-    virtual std::variant<uint8_t, uint16_t> operator()(std::variant<uint8_t, uint16_t>) = 0;
+    virtual interimValue_t operator()(interimValue_t) = 0;
 
   private:
     uint8_t length;
