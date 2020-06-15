@@ -15,17 +15,19 @@ class Bus
     Bus(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)());
     void clock();
 
+    uint8_t read(uint16_t addr);
+    void write(uint16_t addr, uint8_t val);
+
   private:
     static const size_t NUM_DEVICES = 17;
     std::array<std::shared_ptr<ReadWriteDevice>, NUM_DEVICES> devices;
-    
+
     PPU ppu;
     CPU cpu;
-    
+
     std::shared_ptr<BootRom> bootRom;
     std::shared_ptr<AbstractRamBank> wRam;
     std::shared_ptr<AbstractRamBank> hRam;
-    
 };
 
 

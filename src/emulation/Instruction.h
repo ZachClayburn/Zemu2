@@ -5,21 +5,24 @@
 #include <string>
 #include <vector>
 #include <optional>
-#include "Operation.h"
+
+class Operation;
 
 class Instruction
 {
   public:
     Instruction();
 
-    Instruction(uint8_t opcode, std::string label, std::vector<Operation> ops);
+    Instruction(uint8_t opcodeIn, std::string labelIn, std::vector<Operation*> opsIn);
 
-    std::optional<Operation> clock();
+    std::optional<Operation*> clock();
+    
+    bool isDone();
 
   private:
     uint8_t opcode;
     std::string label;//TODO Use libfmt instead
-    std::vector<Operation> ops;//TODO If I am going to use polymorphism, this needs to be pointers...
+    std::vector<Operation*> ops;//TODO Make this a managed pointer? Just reference a constant Operation?
     uint8_t clockCount{ 0 };
     uint8_t instructionNum{ 0 };
 };

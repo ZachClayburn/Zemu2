@@ -3,8 +3,7 @@
 
 #include <memory>
 #include <array>
-
-#include "Instruction.h"
+#include "OpTables.h"
 
 class CPURegisters;
 class Bus;
@@ -14,10 +13,19 @@ class CPU
   public:
     explicit CPU(Bus *owningBus);
     void clock();
-
+    
   private:
+    enum {
+        RUNNING,
+        HALTED,
+        STOPPED,
+    } state = RUNNING;
+
     std::shared_ptr<CPURegisters> registers;
-    Bus* bus;
+    Bus *bus;
+    OpTables tables;
+    Instruction instruction;
+    
 };
 
 

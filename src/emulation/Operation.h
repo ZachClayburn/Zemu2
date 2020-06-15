@@ -7,8 +7,12 @@
 class Operation
 {
   public:
-    explicit Operation(uint8_t length);
-    uint8_t getLength() const;
+    explicit Operation(uint8_t lengthIn);
+    virtual ~Operation() = default;
+    
+    [[nodiscard]] uint8_t getLength() const;
+
+    virtual void operator()() = 0;
 
   private:
     uint8_t length;
