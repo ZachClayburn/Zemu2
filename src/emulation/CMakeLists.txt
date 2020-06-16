@@ -1,5 +1,5 @@
-add_library(
-        emulation
+set(
+        emulation_SRC
         GameBoy.cpp
         Bus.cpp Bus.h
         PPU.cpp PPU.h
@@ -14,15 +14,35 @@ add_library(
         LCDCRegister.cpp LCDCRegister.h
         STATRegister.cpp STATRegister.h
         bitUtils.cpp bitUtils.h
-        CPURegisters.cpp CPURegisters.h Operation.cpp Operation.h OpTables.cpp OpTables.h)
+        CPURegisters.cpp CPURegisters.h
+        Operation.cpp Operation.h
+        OpTables.cpp OpTables.h
+        IBus.cpp IBus.h)
+add_library(emulation ${emulation_SRC})
+add_library(emulation_test ${emulation_SRC})
+
 
 target_include_directories(
         emulation PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
+target_include_directories(
+        emulation_test PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
 target_link_libraries(
         emulation PRIVATE
+        project_options
+        project_warnings
+        CONAN_PKG::spdlog
+        common
+)
+
+target_link_libraries(
+        emulation_test PRIVATE
         project_options
         project_warnings
         CONAN_PKG::spdlog

@@ -6,12 +6,12 @@
 #include "OpTables.h"
 
 class CPURegisters;
-class Bus;
+class IBus;
 
 class CPU
 {
   public:
-    explicit CPU(Bus *owningBus);
+    explicit CPU(IBus *owningBus);
     void clock();
     
   private:
@@ -22,7 +22,7 @@ class CPU
     } state = RUNNING;
 
     std::shared_ptr<CPURegisters> registers;
-    Bus *bus;
+    IBus *bus;
     OpTables tables;
     Instruction instruction;
     

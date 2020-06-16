@@ -9,7 +9,7 @@
 #include "Pixel.h"
 #include "ScreenConstants.h"
 
-class Bus;
+class IBus;
 
 class GameBoy
 {
@@ -25,7 +25,7 @@ class GameBoy
     void clock();
   
   private:
-    std::unique_ptr<Bus> bus;
+    std::unique_ptr<IBus> bus;
     
 };
 

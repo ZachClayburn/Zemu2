@@ -6,11 +6,11 @@
 #include <functional>
 #include "Instruction.h"
 
-class Bus;
+class IBus;
 class CPURegisters;
 
 
-using OpcodeFun = std::function<Instruction(Bus *const, CPURegisters *const)>;
+using OpcodeFun = std::function<Instruction(IBus *const, CPURegisters *const)>;
 
 class OpTables
 {

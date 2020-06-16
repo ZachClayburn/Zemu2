@@ -5,7 +5,7 @@
 #include "Instruction.h"
 #include "Operation.h"
 
-CPU::CPU(Bus *owningBus)
+CPU::CPU(IBus *owningBus)
   : registers(std::make_shared<CPURegisters>()),
     bus(owningBus) {}
 
