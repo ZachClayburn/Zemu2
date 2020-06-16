@@ -4,16 +4,24 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <memory>
 #include <variant>
 
-#include "Operation.h"
+#include "Operations/Operation.h"
+
+using InstructionList = std::vector<Operation *>;
 
 class Instruction
 {
   public:
     Instruction();
+    Instruction(uint8_t opcodeIn, std::string labelIn, InstructionList opsIn);
 
-    Instruction(uint8_t opcodeIn, std::string labelIn, std::vector<Operation *> opsIn);
+    Instruction(const Instruction &old) = delete;
+    Instruction(Instruction &&old) noexcept;
+    Instruction &operator=(Instruction &&rhs) noexcept;
+
+    ~Instruction();
 
     void clock();
 
@@ -22,7 +30,7 @@ class Instruction
   private:
     uint8_t opcode;
     std::string label;//TODO Use libfmt instead
-    std::vector<Operation *> ops;//TODO Make this a managed pointer? Just reference a constant Operation?
+    InstructionList ops;
     uint8_t clockCount{ 0 };
     uint8_t instructionNum{ 0 };
     interimValue_t interimValue;

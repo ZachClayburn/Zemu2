@@ -1,13 +1,18 @@
 #include "Instruction.h"
 
 #include <utility>
-#include "Operation.h"
+#include "Operations/Operation.h"
 
 Instruction::Instruction()
   : opcode(0), label("Not implemented!") {}
 
-Instruction::Instruction(uint8_t opcodeIn, std::string labelIn, std::vector<Operation*> opsIn)
+Instruction::Instruction(uint8_t opcodeIn, std::string labelIn, InstructionList opsIn)
   : opcode{ opcodeIn }, label(std::move(labelIn)), ops(std::move(opsIn)) {}
+
+Instruction::Instruction(Instruction &&old) noexcept
+  :opcode{old.opcode}, label(std::move(old.label)), ops(std::move(old.ops)) {
+    old.ops.clear();
+}
 
 void Instruction::clock() {
     if (++clockCount < ops.at(instructionNum)->getLength()) {
@@ -15,9 +20,27 @@ void Instruction::clock() {
     }
     
     clockCount = 0;
-    interimValue = (*ops.at(instructionNum++))(interimValue);
+    auto *op = ops.at(instructionNum++);
+    auto val = op->operator()(interimValue);
+    interimValue = val;
 }
 
 bool Instruction::isDone() {
     return instructionNum >= ops.size();
+}
+
+Instruction::~Instruction() {
+    for (auto &operation : ops) {
+        delete operation;
+    }
+}
+Instruction &Instruction::operator=(Instruction &&rhs) noexcept {
+    opcode = rhs.opcode;
+    label = std::move(rhs.label);
+    ops = std::move(rhs.ops);
+    clockCount = rhs.clockCount;
+    instructionNum = rhs.instructionNum;
+    interimValue = rhs.interimValue;
+    
+    return *this;
 }
