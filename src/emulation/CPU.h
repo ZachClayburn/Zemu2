@@ -13,7 +13,8 @@ class CPU
   public:
     explicit CPU(IBus *owningBus);
     void clock();
-    
+    [[nodiscard]] std::shared_ptr<CPURegisters> getRegisters();
+
   private:
     enum {
         RUNNING,
@@ -25,7 +26,6 @@ class CPU
     IBus *bus;
     OpTables tables;
     Instruction instruction;
-    
 };
 
 

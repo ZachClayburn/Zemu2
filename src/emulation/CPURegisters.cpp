@@ -113,3 +113,7 @@ uint16_t CPURegisters::getPC() const {
 void CPURegisters::setPC(uint16_t value) {
     SP = value;
 }
+
+void CPURegisters::incPC() {
+    ++PC;
+}

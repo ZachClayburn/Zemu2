@@ -2,8 +2,6 @@
 
 #include "CPURegisters.h"
 #include "Bus.h"
-#include "Instruction.h"
-#include "Operation.h"
 
 CPU::CPU(IBus *owningBus)
   : registers(std::make_shared<CPURegisters>()),
@@ -13,12 +11,12 @@ void CPU::clock() {
     switch (state) {
 
     case RUNNING:
-        if (instruction.isDone()){
+        if (instruction.isDone()) {
             auto opcode = bus->read(registers->getPC());
             instruction = tables[opcode](bus, registers.get());
-        } else {
-            instruction.clock();
+            registers->incPC();
         }
+        instruction.clock();
         break;
     case HALTED:
         [[fallthrough]];
@@ -26,4 +24,7 @@ void CPU::clock() {
         //These are effectively the same for now
         break;
     }
+}
+std::shared_ptr<CPURegisters> CPU::getRegisters() {
+    return registers;
 }

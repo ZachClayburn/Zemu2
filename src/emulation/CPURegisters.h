@@ -48,6 +48,7 @@ class CPURegisters
 
     [[nodiscard]] uint16_t getPC() const;
     void setPC(uint16_t value);
+    void incPC();
 
   private:
     uint8_t A{ 0 };

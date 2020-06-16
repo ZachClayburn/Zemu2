@@ -19,7 +19,7 @@ set(
         OpTables.cpp OpTables.h
         IBus.cpp IBus.h)
 add_library(emulation ${emulation_SRC})
-add_library(emulation_test ${emulation_SRC})
+add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 
 
 target_include_directories(
