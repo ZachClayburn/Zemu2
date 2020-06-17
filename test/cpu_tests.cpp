@@ -18,7 +18,7 @@ void testBasicLoad(MockBus &bus,
 TEST_CASE("CPU instruction tests") {
     MockBus bus;
     auto registers = bus.getCpu().getRegisters();
-    SECTION("8 Bit Load from parameter") {
+    SECTION("8 bit load from parameter") {
         const uint8_t expected = 0x4A;
         bus.write(0x01, expected);
         const int requiredClocks = 8;
@@ -49,6 +49,69 @@ TEST_CASE("CPU instruction tests") {
         SECTION("LD L, d8") {
             const uint8_t opcode = 0x2EU;
             testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getL(); });
+        }
+    }
+    SECTION("Indirect load instructions") {
+        const uint8_t expected = 0x4AU;
+        const uint16_t address = 0x4A4AU;
+        SECTION("Load from A") {
+            const int requiredClocks = 8;
+            registers->setA(expected);
+            SECTION("LD (BC), A") {
+                const uint8_t opcode = 0x02U;
+                registers->setBC(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [&bus]() { return bus.read(address); });
+            }
+            SECTION("LD (DE), A") {
+                const uint8_t opcode = 0x12U;
+                registers->setDE(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [&bus]() { return bus.read(address); });
+            }
+            SECTION("LD (HL+), A") {
+                const uint8_t opcode = 0x22U;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [&bus]() { return bus.read(address); });
+                REQUIRE(registers->getHL() == (address + 1));
+            }
+            SECTION("LD (HL-), A") {
+                const uint8_t opcode = 0x32U;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [&bus]() { return bus.read(address); });
+                REQUIRE(registers->getHL() == (address - 1));
+            }
+        }
+        SECTION("LD (HL), d8") {
+            const int requiredClocks = 12;
+            const uint8_t opcode = 0x36U;
+            registers->setHL(address);
+            bus.write(0x01U, expected);
+            testBasicLoad(bus, opcode, requiredClocks, expected, [&bus, address]() { return bus.read(address); });
+        }
+        SECTION("Load to A") {
+            const int requiredClocks = 8;
+            bus.write(address, expected);
+            SECTION("LD A, (BC)") {
+                const uint8_t opcode = 0x0AU;
+                registers->setBC(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getA(); });
+            }
+            SECTION("LD A, (DE)") {
+                const uint8_t opcode = 0x1AU;
+                registers->setDE(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getA(); });
+            }
+            SECTION("LD A, (HL+)") {
+                const uint8_t opcode = 0x2AU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getA(); });
+                REQUIRE(registers->getHL() == (address + 1));
+            }
+            SECTION("LD A, (HL-)") {
+                const uint8_t opcode = 0x3AU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getA(); });
+                REQUIRE(registers->getHL() == (address - 1));
+            }
         }
     }
 }

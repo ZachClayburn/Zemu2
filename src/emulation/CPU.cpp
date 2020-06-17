@@ -5,7 +5,8 @@
 
 CPU::CPU(IBus *owningBus)
   : registers(std::make_shared<CPURegisters>()),
-    bus(owningBus) {}
+    bus(owningBus),
+    instruction{0x00U, "", {}} {}
 
 void CPU::clock() {
     switch (state) {

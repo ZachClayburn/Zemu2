@@ -2,7 +2,7 @@
 #define ZEMU2_MOCKBUS_H
 
 #include <array>
-
+#include <limits>
 #include "IBus.h"
 #include "CPU.h"
 
@@ -19,7 +19,7 @@ class MockBus : IBus
 
   private:
     CPU cpu;
-    std::array<uint8_t, 256> ram;
+    std::array<uint8_t, std::numeric_limits<uint16_t>::max()> ram;
     
 };
 

@@ -17,7 +17,7 @@ set(
         CPURegisters.cpp CPURegisters.h
         Operations/Operation.cpp Operations/Operation.h
         OpTables.cpp OpTables.h
-        IBus.cpp IBus.h Operations/DirectLoad.cpp Operations/DirectLoad.h Operations/LoadToRegister.cpp Operations/LoadToRegister.h)
+        IBus.cpp IBus.h Operations/DirectLoad.cpp Operations/DirectLoad.h Operations/LoadToRegister.cpp Operations/LoadToRegister.h Operations/NOP.cpp Operations/NOP.h)
 add_library(emulation ${emulation_SRC})
 add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 
