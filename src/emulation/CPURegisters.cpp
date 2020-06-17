@@ -103,15 +103,15 @@ uint16_t CPURegisters::getSP() const {
 }
 
 void CPURegisters::setSP(uint16_t value) {
-    PC = value;
+    SP = value;
 }
 
 uint16_t CPURegisters::getPC() const {
-    return SP;
+    return PC;
 }
 
 void CPURegisters::setPC(uint16_t value) {
-    SP = value;
+    PC = value;
 }
 
 void CPURegisters::incPC() {
