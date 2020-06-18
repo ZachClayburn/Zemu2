@@ -30,6 +30,14 @@ OpTables::OpTables() {
     addIndirectLoadFromRegisterPair(0x1AU, IndirectLoadFromRegisterPair::DE, LoadToRegister::A, "LD A, (DE)");
     addIndirectLoadFromRegisterPair(0x2AU, IndirectLoadFromRegisterPair::HLi, LoadToRegister::A, "LD A, (HL+)");
     addIndirectLoadFromRegisterPair(0x3AU, IndirectLoadFromRegisterPair::HLd, LoadToRegister::A, "LD A, (HL-)");
+    
+    addIndirectLoadFromRegisterPair(0x7EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::A, "LD A, (HL)");
+    addIndirectLoadFromRegisterPair(0x46U, IndirectLoadFromRegisterPair::HL, LoadToRegister::B, "LD B, (HL)");
+    addIndirectLoadFromRegisterPair(0x4EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::C, "LD C, (HL)");
+    addIndirectLoadFromRegisterPair(0x56U, IndirectLoadFromRegisterPair::HL, LoadToRegister::D, "LD D, (HL)");
+    addIndirectLoadFromRegisterPair(0x5EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::E, "LD E, (HL)");
+    addIndirectLoadFromRegisterPair(0x66U, IndirectLoadFromRegisterPair::HL, LoadToRegister::H, "LD H, (HL)");
+    addIndirectLoadFromRegisterPair(0x6EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::L, "LD L, (HL)");
 }
 
 OpcodeFun OpTables::operator[](uint8_t opcode) {

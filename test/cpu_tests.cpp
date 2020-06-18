@@ -113,5 +113,44 @@ TEST_CASE("CPU instruction tests") {
                 REQUIRE(registers->getHL() == (address - 1));
             }
         }
+        SECTION("Load to non-A register"){
+            const int requiredClocks = 8;
+            bus.write(address, expected);
+            SECTION("LD A, (HL)"){
+                const uint8_t opcode = 0x7EU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getA(); });
+            }
+            SECTION("LD B, (HL)"){
+                const uint8_t opcode = 0x46U;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getB(); });
+            }
+            SECTION("LD C, (HL)"){
+                const uint8_t opcode = 0x4EU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getC(); });
+            }
+            SECTION("LD D, (HL)"){
+                const uint8_t opcode = 0x56U;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getD(); });
+            }
+            SECTION("LD E, (HL)"){
+                const uint8_t opcode = 0x5EU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getE(); });
+            }
+            SECTION("LD H, (HL)"){
+                const uint8_t opcode = 0x66U;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getH(); });
+            }
+            SECTION("LD L, (HL)"){
+                const uint8_t opcode = 0x6EU;
+                registers->setHL(address);
+                testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getL(); });
+            }
+        }
     }
 }
