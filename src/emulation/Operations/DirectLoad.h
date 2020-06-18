@@ -15,7 +15,7 @@ class DirectLoad : public Operation
     IBus *bus;
     CPURegisters *registers;
 
-    constexpr const static uint8_t LENGTH{ 4 };
+    constexpr const static uint8_t LENGTH{ 6 };
 };
 
 

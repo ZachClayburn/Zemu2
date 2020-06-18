@@ -20,6 +20,7 @@ class OpTables
 
   private:
     void addBasicLoad(uint8_t opcode, uint8_t target, const std::string& label);
+    void addIndirectLoadFromRegisterPair(uint8_t opcode, uint8_t fromTarget, uint8_t toTarget, const std::string &label);
     
     const uint8_t PREFIX_ADDR{ 0xCBU };
     std::array<OpcodeFun , 256> opTable;

@@ -21,7 +21,7 @@ class LoadToRegister : public Operation
     interimValue_t operator()(interimValue_t value) override;
 
   private:
-    constexpr const static uint8_t LENGTH{ 4 };
+    constexpr const static uint8_t LENGTH{ 2 };
     CPURegisters *registers;
     RegisterTarget target;
 };

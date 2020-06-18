@@ -98,6 +98,18 @@ void CPURegisters::setHL(uint16_t value) {
     splitBytes(value, H, L);
 }
 
+void CPURegisters::indHL() {
+    auto value = mergeBytes(H, L);
+    value++;
+    setHL(value);
+}
+
+void CPURegisters::decHL() {
+    auto value = mergeBytes(H, L);
+    value--;
+    setHL(value);
+}
+
 uint16_t CPURegisters::getSP() const {
     return SP;
 }

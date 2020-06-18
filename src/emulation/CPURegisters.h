@@ -42,6 +42,8 @@ class CPURegisters
 
     [[nodiscard]] uint16_t getHL() const;
     void setHL(uint16_t value);
+    void indHL();
+    void decHL();
 
     [[nodiscard]] uint16_t getSP() const;
     void setSP(uint16_t value);
