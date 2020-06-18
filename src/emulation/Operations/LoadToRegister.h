@@ -6,7 +6,7 @@
 class LoadToRegister : public Operation
 {
   public:
-    enum RegisterTarget : uint8_t {
+    enum Targets : uint8_t {
         A,
         B,
         C,
@@ -16,14 +16,14 @@ class LoadToRegister : public Operation
         L,
     };
     
-    LoadToRegister(CPURegisters* registersIn, RegisterTarget targetIn);
+    LoadToRegister(CPURegisters* registersIn, Targets targetIn);
     ~LoadToRegister() override = default;
     interimValue_t operator()(interimValue_t value) override;
 
   private:
     constexpr const static uint8_t LENGTH{ 2 };
     CPURegisters *registers;
-    RegisterTarget target;
+    Targets target;
 };
 
 

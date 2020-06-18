@@ -3,7 +3,9 @@
 #include "Instruction.h"
 #include "Operations/DirectLoad.h"
 #include "Operations/LoadToRegister.h"
+#include "Operations/LoadFromRegister.h"
 #include "Operations/IndirectLoadFromRegisterPair.h"
+#include "Operations/IndirectLoadToRegisterPair.h"
 #include "Operations/NOP.h"
 
 OpTables::OpTables() {
@@ -38,13 +40,35 @@ OpTables::OpTables() {
     addIndirectLoadFromRegisterPair(0x5EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::E, "LD E, (HL)");
     addIndirectLoadFromRegisterPair(0x66U, IndirectLoadFromRegisterPair::HL, LoadToRegister::H, "LD H, (HL)");
     addIndirectLoadFromRegisterPair(0x6EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::L, "LD L, (HL)");
+    
+    addIndirectLoadToRegisterPair(0x02U, LoadToRegister::A, IndirectLoadToRegisterPair::BC, "LD (BC), A");
+    addIndirectLoadToRegisterPair(0x12U, LoadToRegister::A, IndirectLoadToRegisterPair::DE, "LD (DE), A");
+    addIndirectLoadToRegisterPair(0x22U, LoadToRegister::A, IndirectLoadToRegisterPair::HLi, "LD (HL+), A");
+    addIndirectLoadToRegisterPair(0x32U, LoadToRegister::A, IndirectLoadToRegisterPair::HLd, "LD (HL-), A");
+    addIndirectLoadToRegisterPair(0x77U, LoadToRegister::A, IndirectLoadToRegisterPair::HL, "LD (HL), A");
+    addIndirectLoadToRegisterPair(0x70U, LoadToRegister::B, IndirectLoadToRegisterPair::HL, "LD (HL), B");
+    addIndirectLoadToRegisterPair(0x71U, LoadToRegister::C, IndirectLoadToRegisterPair::HL, "LD (HL), C");
+    addIndirectLoadToRegisterPair(0x72U, LoadToRegister::D, IndirectLoadToRegisterPair::HL, "LD (HL), D");
+    addIndirectLoadToRegisterPair(0x73U, LoadToRegister::E, IndirectLoadToRegisterPair::HL, "LD (HL), E");
+    addIndirectLoadToRegisterPair(0x74U, LoadToRegister::H, IndirectLoadToRegisterPair::HL, "LD (HL), H");
+    addIndirectLoadToRegisterPair(0x75U, LoadToRegister::L, IndirectLoadToRegisterPair::HL, "LD (HL), L");
+    
+    opTable.at(0x36U) = [](IBus* bus, CPURegisters *registers) {
+        return Instruction(
+          0x36U,
+          "LD (HL), d8",
+          {
+            new DirectLoad(bus, registers),
+            new IndirectLoadToRegisterPair(bus, registers, IndirectLoadToRegisterPair::HL),
+          });
+    };
 }
 
 OpcodeFun OpTables::operator[](uint8_t opcode) {
     return opTable.at(opcode);
 }
 void OpTables::addBasicLoad(uint8_t opcode, uint8_t target, const std::string &label) {
-    auto targetEnum = static_cast<LoadToRegister::RegisterTarget>(target);
+    auto targetEnum = static_cast<LoadToRegister::Targets>(target);
     opTable.at(opcode) = [opcode, label, targetEnum](IBus *bus, CPURegisters *registers) {
         return Instruction(
           opcode,
@@ -58,7 +82,7 @@ void OpTables::addBasicLoad(uint8_t opcode, uint8_t target, const std::string &l
 
 void OpTables::addIndirectLoadFromRegisterPair(uint8_t opcode, uint8_t fromTarget, uint8_t toTarget, const std::string &label) {
     auto fromTargetEnum = static_cast<IndirectLoadFromRegisterPair::Targets>(fromTarget);
-    auto toTargetEnum = static_cast<LoadToRegister::RegisterTarget>(toTarget);
+    auto toTargetEnum = static_cast<LoadToRegister::Targets>(toTarget);
     opTable.at(opcode) = [opcode, label, fromTargetEnum, toTargetEnum](IBus *bus, CPURegisters *registers) {
         return Instruction(
           opcode,
@@ -67,5 +91,19 @@ void OpTables::addIndirectLoadFromRegisterPair(uint8_t opcode, uint8_t fromTarge
             new IndirectLoadFromRegisterPair(bus, registers, fromTargetEnum),
             new LoadToRegister(registers, toTargetEnum),
           });
+    };
+}
+
+void OpTables::addIndirectLoadToRegisterPair(uint8_t opcode, uint8_t fromTarget, uint8_t toTarget, const std::string &label) {
+    auto fromTargetEnum = static_cast<LoadFromRegister::Targets>(fromTarget);
+    auto toTargetEnum = static_cast<IndirectLoadToRegisterPair::Targets>(toTarget);
+    opTable.at(opcode) = [opcode, label, fromTargetEnum, toTargetEnum](IBus *bus, CPURegisters *registers) {
+           return Instruction(
+             opcode,
+             label,
+             {
+               new LoadFromRegister(registers, fromTargetEnum),
+               new IndirectLoadToRegisterPair(bus, registers, toTargetEnum),
+             });
     };
 }

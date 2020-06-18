@@ -22,7 +22,7 @@ set(
         Operations/LoadToRegister.cpp Operations/LoadToRegister.h
         Operations/NOP.cpp Operations/NOP.h
         Operations/IndirectLoadFromRegisterPair.cpp Operations/IndirectLoadFromRegisterPair.h
-)
+        Operations/IndirectLoadToRegisterPair.cpp Operations/IndirectLoadToRegisterPair.h Operations/LoadFromRegister.cpp Operations/LoadFromRegister.h)
 add_library(emulation ${emulation_SRC})
 add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 
