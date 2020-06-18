@@ -15,6 +15,68 @@ void testBasicLoad(MockBus &bus,
     }
     REQUIRE(getterFun() == expected);
 }
+
+void testRegisterToRegisterLoad(MockBus &bus, CPURegisters *registers, uint8_t opcode, char from, char to) {
+
+    const uint8_t expected = 'J';
+    switch (from) {
+    case 'A':
+        registers->setA(expected);
+        break;
+    case 'B':
+        registers->setB(expected);
+        break;
+    case 'C':
+        registers->setC(expected);
+        break;
+    case 'D':
+        registers->setD(expected);
+        break;
+    case 'E':
+        registers->setE(expected);
+        break;
+    case 'H':
+        registers->setH(expected);
+        break;
+    case 'L':
+        registers->setL(expected);
+        break;
+    default:
+        throw std::invalid_argument("Bad from argument");
+    }
+
+    bus.write(0, opcode);
+    for (int i = 0; i < 4; i++) {
+        bus.clock();
+    }
+
+    switch (to) {
+    case 'A':
+        REQUIRE(registers->getA() == expected);
+        break;
+    case 'B':
+        REQUIRE(registers->getB() == expected);
+        break;
+    case 'C':
+        REQUIRE(registers->getC() == expected);
+        break;
+    case 'D':
+        REQUIRE(registers->getD() == expected);
+        break;
+    case 'E':
+        REQUIRE(registers->getE() == expected);
+        break;
+    case 'H':
+        REQUIRE(registers->getH() == expected);
+        break;
+    case 'L':
+        REQUIRE(registers->getL() == expected);
+        break;
+    default:
+        throw std::invalid_argument("Bad to argument");
+    }
+}
+
 TEST_CASE("CPU instruction tests") {
     MockBus bus;
     auto registers = bus.getCpu().getRegisters();
@@ -185,5 +247,62 @@ TEST_CASE("CPU instruction tests") {
                 testBasicLoad(bus, opcode, requiredClocks, expected, [registers]() { return registers->getL(); });
             }
         }
+    }
+    SECTION("Register to register loads") {
+        SECTION("LD A, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x7FU, 'A', 'A'); }
+        SECTION("LD A, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x78U, 'B', 'A'); }
+        SECTION("LD A, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x79U, 'C', 'A'); }
+        SECTION("LD A, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x7AU, 'D', 'A'); }
+        SECTION("LD A, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x7BU, 'E', 'A'); }
+        SECTION("LD A, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x7CU, 'H', 'A'); }
+        SECTION("LD A, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x7DU, 'L', 'A'); }
+
+        SECTION("LD L, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x6FU, 'A', 'L'); }
+        SECTION("LD L, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x68U, 'B', 'L'); }
+        SECTION("LD L, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x69U, 'C', 'L'); }
+        SECTION("LD L, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x6AU, 'D', 'L'); }
+        SECTION("LD L, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x6BU, 'E', 'L'); }
+        SECTION("LD L, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x6CU, 'H', 'L'); }
+        SECTION("LD L, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x6DU, 'L', 'L'); }
+
+        SECTION("LD E, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x5FU, 'A', 'E'); }
+        SECTION("LD E, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x58U, 'B', 'E'); }
+        SECTION("LD E, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x59U, 'C', 'E'); }
+        SECTION("LD E, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x5AU, 'D', 'E'); }
+        SECTION("LD E, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x5BU, 'E', 'E'); }
+        SECTION("LD E, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x5CU, 'H', 'E'); }
+        SECTION("LD E, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x5DU, 'L', 'E'); }
+
+        SECTION("LD C, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x4FU, 'A', 'C'); }
+        SECTION("LD C, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x48U, 'B', 'C'); }
+        SECTION("LD C, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x49U, 'C', 'C'); }
+        SECTION("LD C, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x4AU, 'D', 'C'); }
+        SECTION("LD C, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x4BU, 'E', 'C'); }
+        SECTION("LD C, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x4CU, 'H', 'C'); }
+        SECTION("LD C, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x4DU, 'L', 'C'); }
+
+        SECTION("LD B, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x47U, 'A', 'B'); }
+        SECTION("LD B, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x40U, 'B', 'B'); }
+        SECTION("LD B, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x41U, 'C', 'B'); }
+        SECTION("LD B, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x42U, 'D', 'B'); }
+        SECTION("LD B, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x43U, 'E', 'B'); }
+        SECTION("LD B, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x44U, 'H', 'B'); }
+        SECTION("LD B, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x45U, 'L', 'B'); }
+
+        SECTION("LD D, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x57U, 'A', 'D'); }
+        SECTION("LD D, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x50U, 'B', 'D'); }
+        SECTION("LD D, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x51U, 'C', 'D'); }
+        SECTION("LD D, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x52U, 'D', 'D'); }
+        SECTION("LD D, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x53U, 'E', 'D'); }
+        SECTION("LD D, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x54U, 'H', 'D'); }
+        SECTION("LD D, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x55U, 'L', 'D'); }
+
+        SECTION("LD H, A") { testRegisterToRegisterLoad(bus, registers.get(), 0x67U, 'A', 'H'); }
+        SECTION("LD H, B") { testRegisterToRegisterLoad(bus, registers.get(), 0x60U, 'B', 'H'); }
+        SECTION("LD H, C") { testRegisterToRegisterLoad(bus, registers.get(), 0x61U, 'C', 'H'); }
+        SECTION("LD H, D") { testRegisterToRegisterLoad(bus, registers.get(), 0x62U, 'D', 'H'); }
+        SECTION("LD H, E") { testRegisterToRegisterLoad(bus, registers.get(), 0x63U, 'E', 'H'); }
+        SECTION("LD H, H") { testRegisterToRegisterLoad(bus, registers.get(), 0x64U, 'H', 'H'); }
+        SECTION("LD H, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x65U, 'L', 'H'); }
     }
 }

@@ -32,7 +32,7 @@ OpTables::OpTables() {
     addIndirectLoadFromRegisterPair(0x1AU, IndirectLoadFromRegisterPair::DE, LoadToRegister::A, "LD A, (DE)");
     addIndirectLoadFromRegisterPair(0x2AU, IndirectLoadFromRegisterPair::HLi, LoadToRegister::A, "LD A, (HL+)");
     addIndirectLoadFromRegisterPair(0x3AU, IndirectLoadFromRegisterPair::HLd, LoadToRegister::A, "LD A, (HL-)");
-    
+
     addIndirectLoadFromRegisterPair(0x7EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::A, "LD A, (HL)");
     addIndirectLoadFromRegisterPair(0x46U, IndirectLoadFromRegisterPair::HL, LoadToRegister::B, "LD B, (HL)");
     addIndirectLoadFromRegisterPair(0x4EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::C, "LD C, (HL)");
@@ -40,7 +40,7 @@ OpTables::OpTables() {
     addIndirectLoadFromRegisterPair(0x5EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::E, "LD E, (HL)");
     addIndirectLoadFromRegisterPair(0x66U, IndirectLoadFromRegisterPair::HL, LoadToRegister::H, "LD H, (HL)");
     addIndirectLoadFromRegisterPair(0x6EU, IndirectLoadFromRegisterPair::HL, LoadToRegister::L, "LD L, (HL)");
-    
+
     addIndirectLoadToRegisterPair(0x02U, LoadToRegister::A, IndirectLoadToRegisterPair::BC, "LD (BC), A");
     addIndirectLoadToRegisterPair(0x12U, LoadToRegister::A, IndirectLoadToRegisterPair::DE, "LD (DE), A");
     addIndirectLoadToRegisterPair(0x22U, LoadToRegister::A, IndirectLoadToRegisterPair::HLi, "LD (HL+), A");
@@ -52,8 +52,72 @@ OpTables::OpTables() {
     addIndirectLoadToRegisterPair(0x73U, LoadToRegister::E, IndirectLoadToRegisterPair::HL, "LD (HL), E");
     addIndirectLoadToRegisterPair(0x74U, LoadToRegister::H, IndirectLoadToRegisterPair::HL, "LD (HL), H");
     addIndirectLoadToRegisterPair(0x75U, LoadToRegister::L, IndirectLoadToRegisterPair::HL, "LD (HL), L");
-    
-    opTable.at(0x36U) = [](IBus* bus, CPURegisters *registers) {
+
+    addRegisterToRegisterLoad(0x40U, LoadFromRegister::B, LoadToRegister::B, "LD B, B");
+    addRegisterToRegisterLoad(0x41U, LoadFromRegister::C, LoadToRegister::B, "LD B, C");
+    addRegisterToRegisterLoad(0x42U, LoadFromRegister::D, LoadToRegister::B, "LD B, D");
+    addRegisterToRegisterLoad(0x43U, LoadFromRegister::E, LoadToRegister::B, "LD B, E");
+    addRegisterToRegisterLoad(0x44U, LoadFromRegister::H, LoadToRegister::B, "LD B, H");
+    addRegisterToRegisterLoad(0x45U, LoadFromRegister::L, LoadToRegister::B, "LD B, L");
+    addRegisterToRegisterLoad(0x47U, LoadFromRegister::A, LoadToRegister::B, "LD B, A");
+
+    addRegisterToRegisterLoad(0x50U, LoadFromRegister::B, LoadToRegister::D, "LD D, B");
+    addRegisterToRegisterLoad(0x51U, LoadFromRegister::C, LoadToRegister::D, "LD D, C");
+    addRegisterToRegisterLoad(0x52U, LoadFromRegister::D, LoadToRegister::D, "LD D, D");
+    addRegisterToRegisterLoad(0x53U, LoadFromRegister::E, LoadToRegister::D, "LD D, E");
+    addRegisterToRegisterLoad(0x54U, LoadFromRegister::H, LoadToRegister::D, "LD D, H");
+    addRegisterToRegisterLoad(0x55U, LoadFromRegister::L, LoadToRegister::D, "LD D, L");
+    addRegisterToRegisterLoad(0x57U, LoadFromRegister::A, LoadToRegister::D, "LD D, A");
+
+    addRegisterToRegisterLoad(0x60U, LoadFromRegister::B, LoadToRegister::H, "LD H, B");
+    addRegisterToRegisterLoad(0x61U, LoadFromRegister::C, LoadToRegister::H, "LD H, C");
+    addRegisterToRegisterLoad(0x62U, LoadFromRegister::D, LoadToRegister::H, "LD H, D");
+    addRegisterToRegisterLoad(0x63U, LoadFromRegister::E, LoadToRegister::H, "LD H, E");
+    addRegisterToRegisterLoad(0x64U, LoadFromRegister::H, LoadToRegister::H, "LD H, H");
+    addRegisterToRegisterLoad(0x65U, LoadFromRegister::L, LoadToRegister::H, "LD H, L");
+    addRegisterToRegisterLoad(0x6AU, LoadFromRegister::A, LoadToRegister::H, "LD H, A");
+
+    addRegisterToRegisterLoad(0x60U, LoadFromRegister::B, LoadToRegister::H, "LD H, B");
+    addRegisterToRegisterLoad(0x61U, LoadFromRegister::C, LoadToRegister::H, "LD H, C");
+    addRegisterToRegisterLoad(0x62U, LoadFromRegister::D, LoadToRegister::H, "LD H, D");
+    addRegisterToRegisterLoad(0x63U, LoadFromRegister::E, LoadToRegister::H, "LD H, E");
+    addRegisterToRegisterLoad(0x64U, LoadFromRegister::H, LoadToRegister::H, "LD H, H");
+    addRegisterToRegisterLoad(0x65U, LoadFromRegister::L, LoadToRegister::H, "LD H, L");
+    addRegisterToRegisterLoad(0x67U, LoadFromRegister::A, LoadToRegister::H, "LD H, A");
+
+    addRegisterToRegisterLoad(0x48U, LoadFromRegister::B, LoadToRegister::C, "LD C, B");
+    addRegisterToRegisterLoad(0x49U, LoadFromRegister::C, LoadToRegister::C, "LD C, C");
+    addRegisterToRegisterLoad(0x4AU, LoadFromRegister::D, LoadToRegister::C, "LD C, D");
+    addRegisterToRegisterLoad(0x4BU, LoadFromRegister::E, LoadToRegister::C, "LD C, E");
+    addRegisterToRegisterLoad(0x4CU, LoadFromRegister::H, LoadToRegister::C, "LD C, H");
+    addRegisterToRegisterLoad(0x4DU, LoadFromRegister::L, LoadToRegister::C, "LD C, L");
+    addRegisterToRegisterLoad(0x4FU, LoadFromRegister::A, LoadToRegister::C, "LD C, A");
+
+    addRegisterToRegisterLoad(0x58U, LoadFromRegister::B, LoadToRegister::E, "LD E, B");
+    addRegisterToRegisterLoad(0x59U, LoadFromRegister::C, LoadToRegister::E, "LD E, C");
+    addRegisterToRegisterLoad(0x5AU, LoadFromRegister::D, LoadToRegister::E, "LD E, D");
+    addRegisterToRegisterLoad(0x5BU, LoadFromRegister::E, LoadToRegister::E, "LD E, E");
+    addRegisterToRegisterLoad(0x5CU, LoadFromRegister::H, LoadToRegister::E, "LD E, H");
+    addRegisterToRegisterLoad(0x5DU, LoadFromRegister::L, LoadToRegister::E, "LD E, L");
+    addRegisterToRegisterLoad(0x5FU, LoadFromRegister::A, LoadToRegister::E, "LD E, A");
+
+    addRegisterToRegisterLoad(0x68U, LoadFromRegister::B, LoadToRegister::L, "LD L, B");
+    addRegisterToRegisterLoad(0x69U, LoadFromRegister::C, LoadToRegister::L, "LD L, C");
+    addRegisterToRegisterLoad(0x6AU, LoadFromRegister::D, LoadToRegister::L, "LD L, D");
+    addRegisterToRegisterLoad(0x6BU, LoadFromRegister::E, LoadToRegister::L, "LD L, E");
+    addRegisterToRegisterLoad(0x6CU, LoadFromRegister::H, LoadToRegister::L, "LD L, H");
+    addRegisterToRegisterLoad(0x6DU, LoadFromRegister::L, LoadToRegister::L, "LD L, L");
+    addRegisterToRegisterLoad(0x6FU, LoadFromRegister::A, LoadToRegister::L, "LD L, A");
+
+    addRegisterToRegisterLoad(0x78U, LoadFromRegister::B, LoadToRegister::A, "LD A, B");
+    addRegisterToRegisterLoad(0x79U, LoadFromRegister::C, LoadToRegister::A, "LD A, C");
+    addRegisterToRegisterLoad(0x7AU, LoadFromRegister::D, LoadToRegister::A, "LD A, D");
+    addRegisterToRegisterLoad(0x7BU, LoadFromRegister::E, LoadToRegister::A, "LD A, E");
+    addRegisterToRegisterLoad(0x7CU, LoadFromRegister::H, LoadToRegister::A, "LD A, H");
+    addRegisterToRegisterLoad(0x7DU, LoadFromRegister::L, LoadToRegister::A, "LD A, L");
+    addRegisterToRegisterLoad(0x7FU, LoadFromRegister::A, LoadToRegister::A, "LD A, A");
+
+    opTable.at(0x36U) = [](IBus *bus, CPURegisters *registers) {
         return Instruction(
           0x36U,
           "LD (HL), d8",
@@ -98,12 +162,26 @@ void OpTables::addIndirectLoadToRegisterPair(uint8_t opcode, uint8_t fromTarget,
     auto fromTargetEnum = static_cast<LoadFromRegister::Targets>(fromTarget);
     auto toTargetEnum = static_cast<IndirectLoadToRegisterPair::Targets>(toTarget);
     opTable.at(opcode) = [opcode, label, fromTargetEnum, toTargetEnum](IBus *bus, CPURegisters *registers) {
-           return Instruction(
-             opcode,
-             label,
-             {
-               new LoadFromRegister(registers, fromTargetEnum),
-               new IndirectLoadToRegisterPair(bus, registers, toTargetEnum),
-             });
+        return Instruction(
+          opcode,
+          label,
+          {
+            new LoadFromRegister(registers, fromTargetEnum),
+            new IndirectLoadToRegisterPair(bus, registers, toTargetEnum),
+          });
+    };
+}
+
+void OpTables::addRegisterToRegisterLoad(uint8_t opcode, uint8_t fromTarget, uint8_t toTarget, const std::string &label) {
+    auto fromTargetEnum = static_cast<LoadFromRegister::Targets>(fromTarget);
+    auto toTargetEnum = static_cast<LoadToRegister::Targets>(toTarget);
+    opTable.at(opcode) = [opcode, label, fromTargetEnum, toTargetEnum](IBus * /*bus*/, CPURegisters *registers) {
+        return Instruction(
+          opcode,
+          label,
+          {
+            new LoadFromRegister(registers, fromTargetEnum),
+            new LoadToRegister(registers, toTargetEnum),
+          });
     };
 }
