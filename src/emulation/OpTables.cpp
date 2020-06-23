@@ -13,6 +13,20 @@
 #include "Operations/IndirectLoadToPrefixAndCRegister.h"
 #include "Operations/IndirectLoadToPrefixAndParameter.h"
 #include "Operations/IndirectLoadFromPrefixAndParameter.h"
+#include "Operations/LoadToRegisterPair.h"
+#include "Operations/DirectExtendedLoad.h"
+
+static void addLoadToRegisterPair(std::array<OpcodeFun, 256> &opTable, uint8_t opCode, LoadToRegisterPair::Targets target, const std::string &label) {
+    opTable.at(opCode) = [opCode, label, target](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          opCode,
+          label,
+          {
+            new DirectExtendedLoad(bus, registers),
+            new LoadToRegisterPair(registers, target),
+          });
+    };
+}
 
 OpTables::OpTables() {
     //Init with NOPs in every position
@@ -187,6 +201,10 @@ OpTables::OpTables() {
             new LoadToRegister(registers, LoadToRegister::A),
           });
     };
+    addLoadToRegisterPair(opTable, 0x01, LoadToRegisterPair::BC, "LD BC, d16");
+    addLoadToRegisterPair(opTable, 0x11, LoadToRegisterPair::DE, "LD DE, d16");
+    addLoadToRegisterPair(opTable, 0x21, LoadToRegisterPair::HL, "LD HL, d16");
+    addLoadToRegisterPair(opTable, 0x31, LoadToRegisterPair::SP, "LD SP, d16");
 }
 
 OpcodeFun OpTables::operator[](uint8_t opcode) {

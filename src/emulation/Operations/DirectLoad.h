@@ -12,10 +12,10 @@ class DirectLoad : public Operation
     interimValue_t operator()(interimValue_t value) override;
 
   private:
+    constexpr const static uint8_t LENGTH{ 6 };
     IBus *bus;
     CPURegisters *registers;
 
-    constexpr const static uint8_t LENGTH{ 6 };
 };
 
 
