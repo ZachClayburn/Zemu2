@@ -77,11 +77,11 @@ void testRegisterToRegisterLoad(MockBus &bus, CPURegisters *registers, uint8_t o
     }
 }
 
-TEST_CASE("CPU instruction tests") {
+TEST_CASE("8 bit load instructions") {
     MockBus bus;
     auto registers = bus.getCpu().getRegisters();
-    SECTION("8 bit load from parameter") {
-        const uint8_t expected = 0x4AU;
+    const uint8_t expected = 0x4AU;
+    SECTION("direct 8 bit load from parameter") {
         bus.write(0x01, expected);
         const int requiredClocks = 8;
         SECTION("LD A, d8") {
@@ -114,7 +114,6 @@ TEST_CASE("CPU instruction tests") {
         }
     }
     SECTION("Indirect load instructions") {
-        const uint8_t expected = 0x4AU;
         const uint16_t address = 0x4A4AU;
         SECTION("Load from A") {
             const int requiredClocks = 8;
@@ -306,7 +305,6 @@ TEST_CASE("CPU instruction tests") {
         SECTION("LD H, L") { testRegisterToRegisterLoad(bus, registers.get(), 0x65U, 'L', 'H'); }
     }
     SECTION("Indirect one bit loads") {
-        const uint8_t expected = 0x4AU;
         const uint16_t prefix = 0xFF00U;
         const uint8_t addr = 0x52U;
         SECTION("LD (a8), A") {
@@ -342,7 +340,6 @@ TEST_CASE("CPU instruction tests") {
         const uint16_t addr = 0x1234U;
         const uint8_t highByte = 0x12U;
         const uint8_t lowByte = 0x34U;
-        const uint8_t expected = 0x4AU;
 
         bus.write(0x01, highByte);
         bus.write(0x02, lowByte);
