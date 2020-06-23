@@ -1,6 +1,6 @@
 #include "LoadToRegister.h"
 
-#include "../CPURegisters.h"
+#include "CPURegisters.h"
 
 LoadToRegister::LoadToRegister(CPURegisters *registersIn, LoadToRegister::Targets targetIn)
   : Operation(LENGTH), registers(registersIn), target(targetIn) {}

@@ -1,7 +1,7 @@
 #include "LoadFromRegister.h"
 
 #include <stdexcept>
-#include "../CPURegisters.h"
+#include "CPURegisters.h"
 
 LoadFromRegister::LoadFromRegister(CPURegisters *registersIn, Targets targetIn) : Operation(LENGTH), registers(registersIn), target(targetIn) {}
 

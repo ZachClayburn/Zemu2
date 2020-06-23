@@ -1,8 +1,8 @@
 #include "IndirectLoadToParameter.h"
 
-#include "../IBus.h"
-#include "../CPURegisters.h"
-#include "../bitUtils.h"
+#include "IBus.h"
+#include "CPURegisters.h"
+#include "bitUtils.h"
 
 IndirectLoadToParameter::IndirectLoadToParameter(IBus *busIn, CPURegisters *registersIn) : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 

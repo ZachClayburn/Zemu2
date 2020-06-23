@@ -1,7 +1,7 @@
 #include "DirectLoad.h"
 
-#include "../Bus.h"
-#include "../CPURegisters.h"
+#include "Bus.h"
+#include "CPURegisters.h"
 
 DirectLoad::DirectLoad(IBus *busIn, CPURegisters *registersIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn) {}

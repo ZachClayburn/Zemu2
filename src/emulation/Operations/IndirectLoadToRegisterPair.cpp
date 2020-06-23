@@ -1,7 +1,7 @@
 #include "IndirectLoadToRegisterPair.h"
 
-#include "../IBus.h"
-#include "../CPURegisters.h"
+#include "IBus.h"
+#include "CPURegisters.h"
 IndirectLoadToRegisterPair::IndirectLoadToRegisterPair(IBus *busIn, CPURegisters *registersIn, IndirectLoadToRegisterPair::Targets targetIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn), target(targetIn) {}
 

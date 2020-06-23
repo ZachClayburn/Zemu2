@@ -32,6 +32,8 @@ add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 target_include_directories(
         emulation PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_include_directories(
