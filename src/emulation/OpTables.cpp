@@ -7,6 +7,8 @@
 #include "Operations/IndirectLoadFromRegisterPair.h"
 #include "Operations/IndirectLoadToRegisterPair.h"
 #include "Operations/NOP.h"
+#include "Operations/IndirectLoadFromParameter.h"
+#include "Operations/IndirectLoadToParameter.h"
 
 OpTables::OpTables() {
     //Init with NOPs in every position
@@ -125,6 +127,21 @@ OpTables::OpTables() {
             new DirectLoad(bus, registers),
             new IndirectLoadToRegisterPair(bus, registers, IndirectLoadToRegisterPair::HL),
           });
+    };
+
+    opTable.at(0xFAU) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xFAU,
+          "LD A, (a16)",
+          { new IndirectLoadFromParameter(bus, registers),
+            new LoadToRegister(registers, LoadToRegister::A) });
+    };
+    opTable.at(0xEAU) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xEAU,
+          "LD (a16), A",
+          { new LoadFromRegister(registers, LoadFromRegister::A),
+            new IndirectLoadToParameter(bus, registers) });
     };
 }
 

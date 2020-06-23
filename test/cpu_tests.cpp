@@ -344,8 +344,8 @@ TEST_CASE("CPU instruction tests") {
         const uint8_t lowByte = 0x34U;
         const uint8_t expected = 0x4AU;
 
-        bus.write(0x01, lowByte);
-        bus.write(0x02, highByte);
+        bus.write(0x01, highByte);
+        bus.write(0x02, lowByte);
 
         SECTION("LD (a16), A") {
             const int requiredClocks = 16;
