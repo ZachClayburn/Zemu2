@@ -11,6 +11,8 @@
 #include "Operations/IndirectLoadToParameter.h"
 #include "Operations/IndirectLoadFromPrefixAndCRegister.h"
 #include "Operations/IndirectLoadToPrefixAndCRegister.h"
+#include "Operations/IndirectLoadToPrefixAndParameter.h"
+#include "Operations/IndirectLoadFromPrefixAndParameter.h"
 
 OpTables::OpTables() {
     //Init with NOPs in every position
@@ -164,6 +166,24 @@ OpTables::OpTables() {
           "LD A, (C)",
           {
             new IndirectLoadFromPrefixAndCRegister(bus, registers),
+            new LoadToRegister(registers, LoadToRegister::A),
+          });
+    };
+    opTable.at(0xE0U) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xE0U,
+          "LD (a8), A",
+          {
+            new LoadFromRegister(registers, LoadFromRegister::A),
+            new IndirectLoadToPrefixAndParameter(bus, registers),
+          });
+    };
+    opTable.at(0xF0U) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xF0U,
+          "LD A, (a8)",
+          {
+            new IndirectLoadFromPrefixAndParameter(bus, registers),
             new LoadToRegister(registers, LoadToRegister::A),
           });
     };
