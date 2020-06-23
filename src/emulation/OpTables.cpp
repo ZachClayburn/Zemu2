@@ -9,6 +9,8 @@
 #include "Operations/NOP.h"
 #include "Operations/IndirectLoadFromParameter.h"
 #include "Operations/IndirectLoadToParameter.h"
+#include "Operations/IndirectLoadFromPrefixAndCRegister.h"
+#include "Operations/IndirectLoadToPrefixAndCRegister.h"
 
 OpTables::OpTables() {
     //Init with NOPs in every position
@@ -133,15 +135,37 @@ OpTables::OpTables() {
         return Instruction(
           0xFAU,
           "LD A, (a16)",
-          { new IndirectLoadFromParameter(bus, registers),
-            new LoadToRegister(registers, LoadToRegister::A) });
+          {
+            new IndirectLoadFromParameter(bus, registers),
+            new LoadToRegister(registers, LoadToRegister::A),
+          });
     };
     opTable.at(0xEAU) = [](IBus *bus, CPURegisters *registers) {
         return Instruction(
           0xEAU,
           "LD (a16), A",
-          { new LoadFromRegister(registers, LoadFromRegister::A),
-            new IndirectLoadToParameter(bus, registers) });
+          {
+            new LoadFromRegister(registers, LoadFromRegister::A),
+            new IndirectLoadToParameter(bus, registers),
+          });
+    };
+    opTable.at(0xE2U) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xE2U,
+          "LD (C), A",
+          {
+            new LoadFromRegister(registers, LoadFromRegister::A),
+            new IndirectLoadToPrefixAndCRegister(bus, registers),
+          });
+    };
+    opTable.at(0xF2U) = [](IBus *bus, CPURegisters *registers) {
+        return Instruction(
+          0xF2U,
+          "LD A, (C)",
+          {
+            new IndirectLoadFromPrefixAndCRegister(bus, registers),
+            new LoadToRegister(registers, LoadToRegister::A),
+          });
     };
 }
 
