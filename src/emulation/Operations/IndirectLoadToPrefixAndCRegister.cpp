@@ -3,7 +3,9 @@
 #include "IBus.h"
 #include "CPURegisters.h"
 
-IndirectLoadToPrefixAndCRegister::IndirectLoadToPrefixAndCRegister(IBus *busIn, CPURegisters *registersIn) : Operation(LENGTH), bus(busIn), registers(registersIn) {}
+IndirectLoadToPrefixAndCRegister::IndirectLoadToPrefixAndCRegister(IBus* busIn,
+  CPURegisters* registersIn)
+  : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 
 interimValue_t IndirectLoadToPrefixAndCRegister::operator()(interimValue_t value) {
     uint16_t addr = PREFIX + registers->getC();

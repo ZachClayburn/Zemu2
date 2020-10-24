@@ -3,10 +3,8 @@
 #include "CPURegisters.h"
 #include "Bus.h"
 
-CPU::CPU(IBus *owningBus)
-  : registers(std::make_shared<CPURegisters>()),
-    bus(owningBus),
-    instruction{0x00U, "", {}} {}
+CPU::CPU(IBus* owningBus)
+  : registers(std::make_shared<CPURegisters>()), bus(owningBus), instruction{ 0x00U, "", {} } {}
 
 void CPU::clock() {
     switch (state) {
@@ -22,10 +20,8 @@ void CPU::clock() {
     case HALTED:
         [[fallthrough]];
     case STOPPED:
-        //These are effectively the same for now
+        // These are effectively the same for now
         break;
     }
 }
-std::shared_ptr<CPURegisters> CPU::getRegisters() {
-    return registers;
-}
+std::shared_ptr<CPURegisters> CPU::getRegisters() { return registers; }

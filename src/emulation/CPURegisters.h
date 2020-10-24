@@ -66,4 +66,4 @@ class CPURegisters
 };
 
 
-#endif//ZEMU2_CPUREGISTERS_H
+#endif// ZEMU2_CPUREGISTERS_H

@@ -16,4 +16,4 @@ class RamEcho : public AbstractRamBank
 };
 
 
-#endif//ZEMU2_RAMECHO_H
+#endif// ZEMU2_RAMECHO_H

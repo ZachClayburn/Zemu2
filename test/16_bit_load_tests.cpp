@@ -65,10 +65,10 @@ TEST_CASE("16 bit load instructions") {
             CHECK(bus.read(mergeBytes(addrHighByte, addrLowByte)) == expected);
         }
         SECTION("LD HL, SP+r8") {
-//            const uint8_t opcode = 0xF8U;
+            //            const uint8_t opcode = 0xF8U;
         }
         SECTION("LD SP, HL") {
-//            const uint8_t opcode = 0xF9U;
+            //            const uint8_t opcode = 0xF9U;
         }
     }
 }

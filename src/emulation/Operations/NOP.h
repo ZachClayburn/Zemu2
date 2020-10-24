@@ -15,4 +15,4 @@ class NOP : public Operation
 };
 
 
-#endif//ZEMU2_NOP_H
+#endif// ZEMU2_NOP_H

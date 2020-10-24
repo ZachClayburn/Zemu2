@@ -14,16 +14,16 @@ class LoadFromRegisterPair : public Operation
         SP,
         PC,
     };
-    LoadFromRegisterPair(CPURegisters *registersIn, Targets targetIn);
+    LoadFromRegisterPair(CPURegisters* registersIn, Targets targetIn);
     ~LoadFromRegisterPair() override = default;
 
     interimValue_t operator()(interimValue_t value) override;
 
   private:
-    constexpr const static int LENGTH{ 2 };//TODO verify
+    constexpr const static int LENGTH{ 2 };// TODO verify
     CPURegisters* registers;
     Targets target;
 };
 
 
-#endif//ZEMU2_LOADFROMREGISTERPAIR_H
+#endif// ZEMU2_LOADFROMREGISTERPAIR_H

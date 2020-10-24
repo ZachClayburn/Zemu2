@@ -2,12 +2,14 @@
 
 #include "IBus.h"
 #include "CPURegisters.h"
-IndirectLoadToRegisterPair::IndirectLoadToRegisterPair(IBus *busIn, CPURegisters *registersIn, IndirectLoadToRegisterPair::Targets targetIn)
+IndirectLoadToRegisterPair::IndirectLoadToRegisterPair(IBus* busIn,
+  CPURegisters* registersIn,
+  IndirectLoadToRegisterPair::Targets targetIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn), target(targetIn) {}
 
 interimValue_t IndirectLoadToRegisterPair::operator()(interimValue_t value) {
     uint16_t addr{ 0 };
-    
+
     switch (target) {
     case BC:
         addr = registers->getBC();
@@ -23,14 +25,14 @@ interimValue_t IndirectLoadToRegisterPair::operator()(interimValue_t value) {
         addr = registers->getHL();
         break;
     }
-    
+
     bus->write(addr, std::get<uint8_t>(value));
-    
-    if (target == HLi){
+
+    if (target == HLi) {
         registers->indHL();
     } else if (target == HLd) {
         registers->decHL();
     }
-    
+
     return std::monostate();
 }

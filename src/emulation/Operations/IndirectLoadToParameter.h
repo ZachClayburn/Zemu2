@@ -6,15 +6,15 @@
 class IndirectLoadToParameter : public Operation
 {
   public:
-    IndirectLoadToParameter(IBus *busIn, CPURegisters *registersIn);
+    IndirectLoadToParameter(IBus* busIn, CPURegisters* registersIn);
     ~IndirectLoadToParameter() override = default;
     interimValue_t operator()(interimValue_t value) override;
 
   private:
     constexpr const static int LENGTH{ 14 };
-    IBus *bus;
-    CPURegisters *registers;
+    IBus* bus;
+    CPURegisters* registers;
 };
 
 
-#endif//ZEMU2_INDIRECTLOADTOPARAMETER_H
+#endif// ZEMU2_INDIRECTLOADTOPARAMETER_H

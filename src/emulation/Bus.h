@@ -32,4 +32,4 @@ class Bus : public IBus
 };
 
 
-#endif//ZEMU2_BUS_H
+#endif// ZEMU2_BUS_H

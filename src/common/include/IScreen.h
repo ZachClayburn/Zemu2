@@ -7,4 +7,4 @@ class IScreen
 };
 
 
-#endif//ZEMU2_ISCREEN_H
+#endif// ZEMU2_ISCREEN_H

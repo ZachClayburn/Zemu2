@@ -3,7 +3,8 @@
 #include <stdexcept>
 #include "CPURegisters.h"
 
-LoadFromRegister::LoadFromRegister(CPURegisters *registersIn, Targets targetIn) : Operation(LENGTH), registers(registersIn), target(targetIn) {}
+LoadFromRegister::LoadFromRegister(CPURegisters* registersIn, Targets targetIn)
+  : Operation(LENGTH), registers(registersIn), target(targetIn) {}
 
 interimValue_t LoadFromRegister::operator()(interimValue_t /*value*/) {
     switch (target) {

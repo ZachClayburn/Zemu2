@@ -25,4 +25,4 @@ class Operation
 };
 
 
-#endif//ZEMU2_OPERATION_H
+#endif// ZEMU2_OPERATION_H

@@ -3,8 +3,7 @@
 const constexpr uint16_t TILE_MAP_0_START_ADDR{ 0x9800U };
 const constexpr uint16_t TILE_MAP_1_START_ADDR{ 0x9C00U };
 
-LCDCRegister::LCDCRegister(uint16_t addr)
-  : BasicRegister(addr) {}
+LCDCRegister::LCDCRegister(uint16_t addr) : BasicRegister(addr) {}
 
 bool LCDCRegister::displayEnable() {
     const uint8_t BIT = 7;

@@ -4,7 +4,9 @@
 #include "CPURegisters.h"
 
 
-LoadFromRegisterPair::LoadFromRegisterPair(CPURegisters *registersIn, LoadFromRegisterPair::Targets targetIn) : Operation(LENGTH), registers(registersIn), target(targetIn) {}
+LoadFromRegisterPair::LoadFromRegisterPair(CPURegisters* registersIn,
+  LoadFromRegisterPair::Targets targetIn)
+  : Operation(LENGTH), registers(registersIn), target(targetIn) {}
 
 
 interimValue_t LoadFromRegisterPair::operator()(interimValue_t /*value*/) {

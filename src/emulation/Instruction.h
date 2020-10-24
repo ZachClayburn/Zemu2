@@ -9,7 +9,7 @@
 
 #include "Operations/Operation.h"
 
-using InstructionList = std::vector<Operation *>;
+using InstructionList = std::vector<Operation*>;
 
 class Instruction
 {
@@ -17,9 +17,9 @@ class Instruction
     Instruction();
     Instruction(uint8_t opcodeIn, std::string labelIn, InstructionList opsIn);
 
-    Instruction(const Instruction &old) = delete;
-    Instruction(Instruction &&old) noexcept;
-    Instruction &operator=(Instruction &&rhs) noexcept;
+    Instruction(const Instruction& old) = delete;
+    Instruction(Instruction&& old) noexcept;
+    Instruction& operator=(Instruction&& rhs) noexcept;
 
     ~Instruction();
 
@@ -29,7 +29,7 @@ class Instruction
 
   private:
     uint8_t opcode;
-    std::string label;//TODO Use libfmt instead
+    std::string label;// TODO Use libfmt instead
     InstructionList ops;
     uint8_t clockCount{ 0 };
     uint8_t instructionNum{ 0 };
@@ -37,4 +37,4 @@ class Instruction
 };
 
 
-#endif//ZEMU2_INSTRUCTION_H
+#endif// ZEMU2_INSTRUCTION_H

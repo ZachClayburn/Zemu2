@@ -20,4 +20,4 @@ class BasicRegister : public ReadWriteDevice
 };
 
 
-#endif//ZEMU2_BASICREGISTER_H
+#endif// ZEMU2_BASICREGISTER_H

@@ -27,21 +27,14 @@ const constexpr uint16_t WX_ADDR{ 0xFF4BU };
 const constexpr uint16_t DMA_ADDR{ 0xFF46U };
 
 PPU::PPU(std::shared_ptr<std::array<Pixel, PIXEL_COUNT>> screenBuffer, void (*screenCallback)())
-  : buffer(std::move(screenBuffer)),
-    updateScreen(screenCallback),
+  : buffer(std::move(screenBuffer)), updateScreen(screenCallback),
     vRam(std::make_shared<RamBank>(8 * 1024, VRAM_START_ADDR)),
-    BGP(std::make_shared<Pallet>(BGP_ADDR)),
-    OBP0(std::make_shared<Pallet>(OBP0_ADDR)),
-    OBP1(std::make_shared<Pallet>(OBP1_ADDR)),
-    LCDC(std::make_shared<LCDCRegister>(LCDC_ADDR)),
-    STAT(std::make_shared<STATRegister>(STAT_ADDR)),
-    SCY(std::make_shared<BasicRegister>(SCY_ADDR)),
-    SCX(std::make_shared<BasicRegister>(SCX_ADDR)),
-    LY(std::make_shared<BasicRegister>(LY_ADDR)),
-    LYC(std::make_shared<BasicRegister>(LYC_ADDR)),
-    WY(std::make_shared<BasicRegister>(WY_ADDR)),
-    WX(std::make_shared<BasicRegister>(WX_ADDR)),
-    DMA(std::make_shared<BasicRegister>(DMA_ADDR)) {
+    BGP(std::make_shared<Pallet>(BGP_ADDR)), OBP0(std::make_shared<Pallet>(OBP0_ADDR)),
+    OBP1(std::make_shared<Pallet>(OBP1_ADDR)), LCDC(std::make_shared<LCDCRegister>(LCDC_ADDR)),
+    STAT(std::make_shared<STATRegister>(STAT_ADDR)), SCY(std::make_shared<BasicRegister>(SCY_ADDR)),
+    SCX(std::make_shared<BasicRegister>(SCX_ADDR)), LY(std::make_shared<BasicRegister>(LY_ADDR)),
+    LYC(std::make_shared<BasicRegister>(LYC_ADDR)), WY(std::make_shared<BasicRegister>(WY_ADDR)),
+    WX(std::make_shared<BasicRegister>(WX_ADDR)), DMA(std::make_shared<BasicRegister>(DMA_ADDR)) {
     spdlog::info("PPU Constructed");
 }
 
@@ -53,11 +46,9 @@ const constexpr int V_BLANK_CYCLES = 10;
 const constexpr int V_BLANK_CLOCKS = VIDEO_CYCLE_CLOCKS * V_BLANK_CYCLES;
 
 void PPU::clock() {
-    if (!LCDC->displayEnable()) {
-        return;
-    }
+    if (!LCDC->displayEnable()) { return; }
     cycleClocks++;
-    //TODO Properly enable/disable video memory depending on the cycle
+    // TODO Properly enable/disable video memory depending on the cycle
     switch (STAT->modeFlag()) {
     case STATRegister::H_BLANK:
         H_BLANK();
@@ -75,44 +66,36 @@ void PPU::clock() {
 }
 
 void PPU::H_BLANK() {
-    if (cycleClocks < H_BLANK_CLOCKS) {
-        return;
-    }
+    if (cycleClocks < H_BLANK_CLOCKS) { return; }
     cycleClocks = 0;
 
     moveScanLine();
     if (LY->getRegVal() == GAMEBOY_HEIGHT) {
         STAT->setMode(STATRegister::V_BLANK);
-        //TODO Trigger appropriate interrupts
+        // TODO Trigger appropriate interrupts
     } else {
         STAT->setMode(STATRegister::OAM_SEARCH);
-        //TODO Trigger appropriate interrupts
+        // TODO Trigger appropriate interrupts
     }
 }
 
 void PPU::V_BLANK() {
-    if ((cycleClocks + 1) % VIDEO_CYCLE_CLOCKS == 0) {
-        moveScanLine();
-    }
+    if ((cycleClocks + 1) % VIDEO_CYCLE_CLOCKS == 0) { moveScanLine(); }
     if (cycleClocks == V_BLANK_CLOCKS) {
         cycleClocks = 0;
         STAT->setMode(STATRegister::OAM_SEARCH);
-        //TODO Trigger appropriate interrupts
+        // TODO Trigger appropriate interrupts
     }
 }
 
 void PPU::OAM_SEARCH() {
-    if (cycleClocks < OAM_SEARCH_CLOCKS) {
-        return;
-    }
+    if (cycleClocks < OAM_SEARCH_CLOCKS) { return; }
     cycleClocks = 0;
     STAT->setMode(STATRegister::OAM_TRANSFER);
 }
 
 void PPU::OAM_TRANSFER() {
-    if (cycleClocks < OAM_TRANSFER_CLOCKS) {
-        return;
-    }
+    if (cycleClocks < OAM_TRANSFER_CLOCKS) { return; }
 
     drawScanLine();
 
@@ -120,13 +103,13 @@ void PPU::OAM_TRANSFER() {
     STAT->setMode(STATRegister::H_BLANK);
 
     if (STAT->hBlankInterruptEnabled()) {
-        //TODO Trigger interrupt
+        // TODO Trigger interrupt
     }
 }
 
 void PPU::drawScanLine() {
     if (LCDC->bgDisplay()) {
-        //TODO Right now we are repeating a lot of work by getting the upper and lower bytes
+        // TODO Right now we are repeating a lot of work by getting the upper and lower bytes
         //     for every pixel in the line. This could be a lot more efficient if we went by
         //     tile, but the scroll values make that non-trivial. Put time into sorting this
         //     out later.
@@ -156,16 +139,12 @@ void PPU::drawScanLine() {
 
             uint8_t colorBit = TILE_WIDTH - (xPos % TILE_WIDTH) - 1;
             uint8_t colorNumber = 0;
-            if (readBit(msbByte, colorBit)) {
-                colorNumber += 0b10;
-            }
-            if (readBit(lsbByte, colorBit)) {
-                colorNumber += 0b01;
-            }
+            if (readBit(msbByte, colorBit)) { colorNumber += 0b10; }
+            if (readBit(lsbByte, colorBit)) { colorNumber += 0b01; }
 
             Pallet::Shade shade = (*BGP)[colorNumber];
 
-            //TODO Make a better more reusable way to get the color
+            // TODO Make a better more reusable way to get the color
             uint8_t brightness{ 0 };
             switch (shade) {
 
@@ -190,70 +169,44 @@ void PPU::drawScanLine() {
 
         if (LCDC->windowEnable()) {
             if (LY->getRegVal() >= WY->getRegVal()) {
-                //TODO Render window
+                // TODO Render window
             }
         }
     }
     if (LCDC->objEnable()) {
-        //TODO Render objects
+        // TODO Render objects
     }
 }
 
 void PPU::moveScanLine() {
     LY->setRegVal((LY->getRegVal() + 1) % (GAMEBOY_HEIGHT + V_BLANK_CYCLES));
-    if (LY->getRegVal() == LYC->getRegVal()){
-        //TODO Trigger correct interrupt
+    if (LY->getRegVal() == LYC->getRegVal()) {
+        // TODO Trigger correct interrupt
     }
 }
 
-std::shared_ptr<ReadWriteDevice> PPU::getVRam() const {
-    return vRam;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getVRam() const { return vRam; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getBgp() const {
-    return BGP;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getBgp() const { return BGP; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getObp0() const {
-    return OBP0;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getObp0() const { return OBP0; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getObp1() const {
-    return OBP1;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getObp1() const { return OBP1; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getLcdc() const {
-    return LCDC;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getLcdc() const { return LCDC; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getStat() const {
-    return STAT;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getStat() const { return STAT; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getScy() const {
-    return SCY;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getScy() const { return SCY; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getScx() const {
-    return SCX;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getScx() const { return SCX; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getLy() const {
-    return LY;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getLy() const { return LY; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getLyc() const {
-    return LYC;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getLyc() const { return LYC; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getWy() const {
-    return WY;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getWy() const { return WY; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getWx() const {
-    return WX;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getWx() const { return WX; }
 
-std::shared_ptr<ReadWriteDevice> PPU::getDma() const {
-    return DMA;
-}
+std::shared_ptr<ReadWriteDevice> PPU::getDma() const { return DMA; }

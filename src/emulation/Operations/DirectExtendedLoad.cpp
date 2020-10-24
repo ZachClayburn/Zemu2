@@ -4,7 +4,7 @@
 #include "CPURegisters.h"
 #include "bitUtils.h"
 
-DirectExtendedLoad::DirectExtendedLoad(IBus *busIn, CPURegisters *registersIn)
+DirectExtendedLoad::DirectExtendedLoad(IBus* busIn, CPURegisters* registersIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 
 interimValue_t DirectExtendedLoad::operator()(interimValue_t /*value*/) {

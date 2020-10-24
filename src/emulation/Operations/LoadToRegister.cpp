@@ -2,7 +2,7 @@
 
 #include "CPURegisters.h"
 
-LoadToRegister::LoadToRegister(CPURegisters *registersIn, LoadToRegister::Targets targetIn)
+LoadToRegister::LoadToRegister(CPURegisters* registersIn, LoadToRegister::Targets targetIn)
   : Operation(LENGTH), registers(registersIn), target(targetIn) {}
 
 interimValue_t LoadToRegister::operator()(interimValue_t value) {

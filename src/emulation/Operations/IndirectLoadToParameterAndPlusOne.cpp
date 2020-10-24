@@ -4,7 +4,8 @@
 #include "CPURegisters.h"
 #include "bitUtils.h"
 
-IndirectLoadToParameterAndPlusOne::IndirectLoadToParameterAndPlusOne(IBus *busIn, CPURegisters *registersIn)
+IndirectLoadToParameterAndPlusOne::IndirectLoadToParameterAndPlusOne(IBus* busIn,
+  CPURegisters* registersIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 
 interimValue_t IndirectLoadToParameterAndPlusOne::operator()(interimValue_t value) {
@@ -14,7 +15,7 @@ interimValue_t IndirectLoadToParameterAndPlusOne::operator()(interimValue_t valu
     registers->incPC();
     const auto addr = mergeBytes(highAddrByte, lowAddrByte);
     const auto fullValue = std::get<uint16_t>(value);
-    const auto[highByte, lowByte] = splitBytes(fullValue);
+    const auto [highByte, lowByte] = splitBytes(fullValue);
 
     bus->write(addr, lowByte);
     bus->write(addr + 1, highByte);

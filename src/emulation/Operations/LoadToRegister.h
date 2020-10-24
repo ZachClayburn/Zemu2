@@ -15,16 +15,16 @@ class LoadToRegister : public Operation
         H,
         L,
     };
-    
+
     LoadToRegister(CPURegisters* registersIn, Targets targetIn);
     ~LoadToRegister() override = default;
     interimValue_t operator()(interimValue_t value) override;
 
   private:
     constexpr const static uint8_t LENGTH{ 2 };
-    CPURegisters *registers;
+    CPURegisters* registers;
     Targets target;
 };
 
 
-#endif//ZEMU2_LOADTOREGISTER_H
+#endif// ZEMU2_LOADTOREGISTER_H

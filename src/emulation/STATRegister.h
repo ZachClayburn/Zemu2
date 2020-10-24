@@ -13,17 +13,17 @@ class STATRegister : public BasicRegister
         OAM_SEARCH = 2,
         OAM_TRANSFER = 3,
     };
-    
+
     explicit STATRegister(uint16_t addr) : BasicRegister(addr) {}
     ~STATRegister() override = default;
-    
+
     bool coincidenceInterruptEnabled();
     bool oamInterruptEnabled();
     bool vBlankInterruptEnabled();
     bool hBlankInterruptEnabled();
     [[nodiscard]] bool coincidenceFlag() const;
     MODE modeFlag();
-    
+
     void setCoincidence(bool coincidence);
     void setMode(MODE mode);
 
@@ -32,8 +32,7 @@ class STATRegister : public BasicRegister
   private:
     bool coincidence = false;
     MODE mode{ OAM_SEARCH };
-    
 };
 
 
-#endif//ZEMU2_STATREGISTER_H
+#endif// ZEMU2_STATREGISTER_H

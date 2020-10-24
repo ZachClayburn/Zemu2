@@ -19,12 +19,13 @@ class Pallet : public ReadWriteDevice
     uint8_t read(uint16_t addr) override;
     void write(uint16_t addr, uint8_t val) override;
     bool accepts(uint16_t addr) override;
-    
+
     [[nodiscard]] Shade operator[](uint8_t n);
+
   private:
     uint16_t palletAddr;
     std::array<Shade, 4> shades;
 };
 
 
-#endif//ZEMU2_PALLET_H
+#endif// ZEMU2_PALLET_H

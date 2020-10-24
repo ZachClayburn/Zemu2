@@ -10,4 +10,4 @@ struct Pixel
     uint8_t blue{ 0 };
 };
 
-#endif//ZEMU2_PIXEL_H
+#endif// ZEMU2_PIXEL_H

@@ -4,8 +4,7 @@
 #include <stdexcept>
 
 RamEcho::RamEcho(uint16_t startAddr, uint16_t stopAddr, std::weak_ptr<AbstractRamBank> echoedRam)
-  : AbstractRamBank(startAddr, stopAddr), echoedBank(std::move(echoedRam)) {
-}
+  : AbstractRamBank(startAddr, stopAddr), echoedBank(std::move(echoedRam)) {}
 
 uint8_t RamEcho::read(uint16_t addr) {
     if (auto ram = echoedBank.lock()) {

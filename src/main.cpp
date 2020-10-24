@@ -3,14 +3,12 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
-int main(int /*argc*/, const char ** /*argv*/) {
+int main(int /*argc*/, const char** /*argv*/) {
     try {
-        auto &window = MainWindow::get();
+        auto& window = MainWindow::get();
         auto buffer = window.getScreenBuffer();
         GameBoy gameBoy(buffer, &MainWindow::updateDisplay);
         MainWindow::pause(1000);
-    } catch (std::runtime_error &error) {
-        spdlog::error(error.what());
-    }
+    } catch (std::runtime_error& error) { spdlog::error(error.what()); }
     return 0;
 }

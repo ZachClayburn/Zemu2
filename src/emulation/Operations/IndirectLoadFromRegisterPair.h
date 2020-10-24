@@ -13,17 +13,17 @@ class IndirectLoadFromRegisterPair : public Operation
         HLi,
         HLd,
     };
-    IndirectLoadFromRegisterPair(IBus *busIn, CPURegisters *registersIn, Targets targetIn);
+    IndirectLoadFromRegisterPair(IBus* busIn, CPURegisters* registersIn, Targets targetIn);
     ~IndirectLoadFromRegisterPair() override = default;
-    
+
     interimValue_t operator()(interimValue_t value) override;
 
   private:
-    constexpr const static int LENGTH{6};
-    IBus *bus;
-    CPURegisters *registers;
+    constexpr const static int LENGTH{ 6 };
+    IBus* bus;
+    CPURegisters* registers;
     Targets target;
 };
 
 
-#endif//ZEMU2_INDIRECTLOADFROMREGISTERPAIR_H
+#endif// ZEMU2_INDIRECTLOADFROMREGISTERPAIR_H

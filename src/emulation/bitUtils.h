@@ -8,10 +8,10 @@
 
 [[nodiscard]] uint16_t mergeBytes(uint8_t highByte, uint8_t lowByte);
 
-//TODO Deprecate this
+// TODO Deprecate this
 // [[deprecated("Use std::tuple<uint8_t, uint8_t> splitBytes(uint16_t value)")]]
-void splitBytes(uint16_t merged, uint8_t &highByte, uint8_t &lowByte);
+void splitBytes(uint16_t merged, uint8_t& highByte, uint8_t& lowByte);
 
 [[nodiscard]] std::tuple<uint8_t, uint8_t> splitBytes(uint16_t value);
 
-#endif//ZEMU2_BITUTILS_H
+#endif// ZEMU2_BITUTILS_H

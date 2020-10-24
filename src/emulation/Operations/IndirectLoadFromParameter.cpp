@@ -4,7 +4,8 @@
 #include "CPURegisters.h"
 #include "bitUtils.h"
 
-IndirectLoadFromParameter::IndirectLoadFromParameter(IBus *busIn, CPURegisters *registersIn) : Operation(LENGTH), bus(busIn), registers(registersIn) {}
+IndirectLoadFromParameter::IndirectLoadFromParameter(IBus* busIn, CPURegisters* registersIn)
+  : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 
 interimValue_t IndirectLoadFromParameter::operator()(interimValue_t /*value*/) {
     uint8_t highByte = bus->read(registers->getPC());

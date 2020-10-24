@@ -11,7 +11,7 @@ class IBus;
 class CPU
 {
   public:
-    explicit CPU(IBus *owningBus);
+    explicit CPU(IBus* owningBus);
     void clock();
     [[nodiscard]] std::shared_ptr<CPURegisters> getRegisters();
 
@@ -23,10 +23,10 @@ class CPU
     } state = RUNNING;
 
     std::shared_ptr<CPURegisters> registers;
-    IBus *bus;
+    IBus* bus;
     OpTables tables;
     Instruction instruction;
 };
 
 
-#endif//ZEMU2_CPU_H
+#endif// ZEMU2_CPU_H

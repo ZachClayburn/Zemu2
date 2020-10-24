@@ -3,7 +3,7 @@
 #include "Bus.h"
 #include "CPURegisters.h"
 
-DirectLoad::DirectLoad(IBus *busIn, CPURegisters *registersIn)
+DirectLoad::DirectLoad(IBus* busIn, CPURegisters* registersIn)
   : Operation(LENGTH), bus(busIn), registers(registersIn) {}
 
 interimValue_t DirectLoad::operator()(interimValue_t /*value*/) {

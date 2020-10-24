@@ -3,7 +3,7 @@
 #include "IBus.h"
 #include "CPURegisters.h"
 
-LoadToRegisterPair::LoadToRegisterPair(CPURegisters *registersIn, Targets targetIn)
+LoadToRegisterPair::LoadToRegisterPair(CPURegisters* registersIn, Targets targetIn)
   : Operation(LENGTH), registers(registersIn), target(targetIn) {}
 
 interimValue_t LoadToRegisterPair::operator()(interimValue_t value) {

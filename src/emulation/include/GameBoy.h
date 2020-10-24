@@ -14,20 +14,20 @@ class IBus;
 class GameBoy
 {
   public:
-    GameBoy(const std::shared_ptr<std::array<Pixel, PIXEL_COUNT>>& screenBuffer, void (*screenCallback)());
+    GameBoy(const std::shared_ptr<std::array<Pixel, PIXEL_COUNT>>& screenBuffer,
+      void (*screenCallback)());
     ~GameBoy();
-    
+
     GameBoy(const GameBoy&) = delete;
     GameBoy& operator=(const GameBoy&) = delete;
     GameBoy(const GameBoy&&) = delete;
     GameBoy& operator=(const GameBoy&&) = delete;
-    
+
     void clock();
-  
+
   private:
     std::unique_ptr<IBus> bus;
-    
 };
 
 
-#endif//ZEMU2_GAMEBOY_H
+#endif// ZEMU2_GAMEBOY_H
