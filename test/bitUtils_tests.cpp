@@ -8,9 +8,7 @@ TEST_CASE("Test bit utils") {
         const uint8_t lowByteExpected = 0xCDU;
         const uint16_t merged = 0xABCDU;
 
-        uint8_t lowByte = 0;
-        uint8_t highByte = 0;
-        splitBytes(merged, highByte, lowByte);
+        auto [highByte, lowByte] = splitBytes(merged);
         REQUIRE(highByteExpected == highByte);
         REQUIRE(lowByteExpected == lowByte);
     }

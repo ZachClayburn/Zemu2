@@ -36,19 +36,19 @@ void CPURegisters::setL(uint8_t value) { L = value; }
 
 uint16_t CPURegisters::getAF() const { return mergeBytes(A, F); }
 
-void CPURegisters::setAF(uint16_t value) { splitBytes(value, A, F); }
+void CPURegisters::setAF(uint16_t value) { std::tie(A, F) = splitBytes(value); }
 
 uint16_t CPURegisters::getBC() const { return mergeBytes(B, C); }
 
-void CPURegisters::setBC(uint16_t value) { splitBytes(value, B, C); }
+void CPURegisters::setBC(uint16_t value) { std::tie(B, C) = splitBytes(value); }
 
 uint16_t CPURegisters::getDE() const { return mergeBytes(D, E); }
 
-void CPURegisters::setDE(uint16_t value) { splitBytes(value, D, E); }
+void CPURegisters::setDE(uint16_t value) { std::tie(D, E) = splitBytes(value); }
 
 uint16_t CPURegisters::getHL() const { return mergeBytes(H, L); }
 
-void CPURegisters::setHL(uint16_t value) { splitBytes(value, H, L); }
+void CPURegisters::setHL(uint16_t value) { std::tie(H, L) = splitBytes(value); }
 
 void CPURegisters::indHL() {
     auto value = mergeBytes(H, L);
