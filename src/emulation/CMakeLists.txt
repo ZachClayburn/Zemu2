@@ -32,7 +32,8 @@ set(
         Operations/IndirectLoadToPrefixAndParameter.cpp Operations/IndirectLoadToPrefixAndParameter.h
         Operations/LoadToRegisterPair.cpp Operations/LoadToRegisterPair.h
         Operations/DirectExtendedLoad.cpp Operations/DirectExtendedLoad.h
-)
+        Operations/LoadFromRegisterPair.cpp Operations/LoadFromRegisterPair.h
+        Operations/IndirectLoadToParameterAndPlusOne.cpp Operations/IndirectLoadToParameterAndPlusOne.h)
 add_library(emulation ${emulation_SRC})
 add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 

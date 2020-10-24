@@ -2,6 +2,7 @@
 
 #include "MockBus.h"
 #include "CPURegisters.h"
+#include "bitUtils.h"
 
 TEST_CASE("16 bit load instructions") {
     MockBus bus;
@@ -42,6 +43,32 @@ TEST_CASE("16 bit load instructions") {
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
             CHECK(registers->getPC() == instructionLength);
             CHECK(registers->getSP() == expected);
+        }
+    }
+    SECTION("Stack pointer loads") {
+        SECTION("LD (a16), SP") {
+            const int requiredClocks = 20;
+            const int instructionLength = 3;
+            const uint8_t opcode = 0x08U;
+            const uint8_t addrHighByte = 0x00;
+            const uint8_t addrLowByte = 0x34;
+            const uint8_t expected = 0xFAU;
+
+            registers->setSP(expected);
+            bus.write(0, opcode);
+            bus.write(1, addrHighByte);
+            bus.write(2, addrLowByte);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(bus.read(mergeBytes(addrHighByte, addrLowByte)) == expected);
+        }
+        SECTION("LD HL, SP+r8") {
+//            const uint8_t opcode = 0xF8U;
+        }
+        SECTION("LD SP, HL") {
+//            const uint8_t opcode = 0xF9U;
         }
     }
 }

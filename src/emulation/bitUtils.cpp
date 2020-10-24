@@ -15,3 +15,11 @@ void splitBytes(uint16_t merged, uint8_t &highByte, uint8_t &lowByte) {
     lowByte = merged & bitMask;
     highByte = (merged >> shift);
 }
+std::tuple<uint8_t, uint8_t> splitBytes(uint16_t value) {
+    constexpr const uint8_t bitMask = 0xFFU;
+    constexpr const unsigned int shift = 8U;
+
+    const uint8_t highByte = value >> shift;
+    const uint8_t lowByte = value & bitMask;
+    return {highByte, lowByte};
+}
