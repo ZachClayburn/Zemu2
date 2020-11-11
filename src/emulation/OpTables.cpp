@@ -2,6 +2,7 @@
 
 #include "Instruction.h"
 #include "Operations/DirectLoad.h"
+#include "Operations/DirectLoadAndAddAsSigned.h"
 #include "Operations/LoadToRegister.h"
 #include "Operations/LoadFromRegister.h"
 #include "Operations/IndirectLoadFromRegisterPair.h"
@@ -230,6 +231,25 @@ OpTables::OpTables() {
           {
             new LoadFromRegisterPair(registers, LoadFromRegisterPair::SP),
             new IndirectLoadToParameterAndPlusOne(bus, registers),
+          });
+    };
+
+    opTable.at(0xF8U) = [](IBus* bus, CPURegisters* registers) {
+        return Instruction(0xF8U,
+          "LD HL, SP + r8",
+          {
+            new LoadFromRegisterPair(registers, LoadFromRegisterPair::SP),
+            new DirectLoadAndAddAsSigned(bus, registers),
+            new LoadToRegisterPair(registers, LoadToRegisterPair::HL),
+          });
+    };
+
+    opTable.at(0xF9U) = [](IBus* /*bus*/, CPURegisters* registers) {
+        return Instruction(0xF9U,
+          "LD SP, HL",
+          {
+            new LoadFromRegisterPair(registers, LoadFromRegisterPair::HL),
+            new LoadToRegisterPair(registers, LoadToRegisterPair::SP),
           });
     };
 }

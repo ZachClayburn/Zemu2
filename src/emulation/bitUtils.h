@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <tuple>
-
+//TODO put in namespace
 [[nodiscard]] bool readBit(uint8_t byte, uint8_t bit);
 
 [[nodiscard]] uint16_t mergeBytes(uint8_t highByte, uint8_t lowByte);

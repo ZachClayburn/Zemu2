@@ -65,10 +65,35 @@ TEST_CASE("16 bit load instructions") {
             CHECK(bus.read(mergeBytes(addrHighByte, addrLowByte)) == expected);
         }
         SECTION("LD HL, SP+r8") {
-            //            const uint8_t opcode = 0xF8U;
+            const int requiredClocks = 12;
+            const int instructionLength = 2;
+            const uint8_t opcode = 0xF8U;
+            const uint8_t offset = 0x34U;
+            const uint16_t initialSP = 0x1200U;
+            const uint16_t expected = initialSP + offset;
+
+            registers->setSP(initialSP);
+            bus.write(0, opcode);
+            bus.write(1, offset);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getHL() == expected);
         }
         SECTION("LD SP, HL") {
-            //            const uint8_t opcode = 0xF9U;
+            const int requiredClocks = 8;
+            const int instructionLength = 1;
+            const uint8_t opcode = 0xF9U;
+            const uint16_t expected = 0x1234U;
+
+            registers->setHL(expected);
+            bus.write(0, opcode);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getSP() == expected);
         }
     }
 }
