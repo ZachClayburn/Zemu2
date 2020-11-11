@@ -65,6 +65,7 @@ TEST_CASE("16 bit load instructions") {
             CHECK(bus.read(mergeBytes(addrHighByte, addrLowByte)) == expected);
         }
         SECTION("LD HL, SP+r8") {
+            //TODO I am not testing or setting the flags modified by this opcode
             const int requiredClocks = 12;
             const int instructionLength = 2;
             const uint8_t opcode = 0xF8U;
