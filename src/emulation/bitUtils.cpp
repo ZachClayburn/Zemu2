@@ -1,6 +1,20 @@
 #include "bitUtils.h"
 
+#include <limits>
+
 bool readBit(uint8_t byte, uint8_t bit) { return static_cast<bool>(byte & (0b1U << bit)); }
+
+uint8_t setBit(uint8_t byte, uint8_t bit, bool value) {
+    return value ? (byte | (1U << bit)) : (byte & ~(1U << bit));
+}
+bool testCarry(uint8_t byte1, uint8_t byte2) {
+    return (static_cast<uint16_t>(byte1) + static_cast<uint16_t>(byte2)
+            > std::numeric_limits<uint8_t>::max());
+}
+
+bool testHalfCarry(uint8_t byte1, uint8_t byte2) {
+    return (((byte1 & 0xFU) + (byte2 & 0xFU)) & 0x10U) == 0x10U;
+}
 
 [[nodiscard]] uint16_t mergeBytes(uint8_t highByte, uint8_t lowByte) {
     constexpr const unsigned int shift = 8U;

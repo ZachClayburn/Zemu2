@@ -71,3 +71,19 @@ uint16_t CPURegisters::getPC() const { return PC; }
 void CPURegisters::setPC(uint16_t value) { PC = value; }
 
 void CPURegisters::incPC() { ++PC; }
+
+constexpr const static uint8_t Z_BIT{ 7 };
+bool CPURegisters::checkZFlag() const { return readBit(F, Z_BIT); }
+void CPURegisters::setZFlag(bool flag) { F = setBit(F, Z_BIT, flag); }
+
+constexpr const static uint8_t N_BIT{ 6 };
+bool CPURegisters::checkNFlag() const { return readBit(F, N_BIT); }
+void CPURegisters::setNFlag(bool flag) { F = setBit(F, N_BIT, flag); }
+
+constexpr const static uint8_t H_BIT{ 5 };
+bool CPURegisters::checkHFlag() const { return readBit(F, H_BIT); }
+void CPURegisters::setHFlag(bool flag) { F = setBit(F, H_BIT, flag); }
+
+constexpr const static uint8_t C_BIT{ 4 };
+bool CPURegisters::checkCFlag() const { return readBit(F, C_BIT); }
+void CPURegisters::setCFlag(bool flag) { F = setBit(F, C_BIT, flag); }

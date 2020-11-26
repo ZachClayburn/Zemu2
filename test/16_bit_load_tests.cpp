@@ -73,12 +73,20 @@ TEST_CASE("16 bit load instructions") {
             const uint16_t initialSP = 0x1200U;
             const uint16_t expected = initialSP + offset;
 
+            registers->setZFlag(true);
+            registers->setNFlag(true);
+            registers->setHFlag(true);
+            registers->setCFlag(true);
             registers->setSP(initialSP);
             bus.write(0, opcode);
             bus.write(1, offset);
 
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
 
+            CHECK(!registers->checkZFlag());
+            CHECK(!registers->checkNFlag());
+            CHECK(!registers->checkHFlag());
+            CHECK(!registers->checkCFlag());
             CHECK(registers->getPC() == instructionLength);
             CHECK(registers->getHL() == expected);
         }

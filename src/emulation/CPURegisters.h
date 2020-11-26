@@ -52,6 +52,18 @@ class CPURegisters
     void setPC(uint16_t value);
     void incPC();
 
+    [[nodiscard]] bool checkZFlag() const;
+    void setZFlag(bool flag);
+
+    [[nodiscard]] bool checkNFlag() const;
+    void setNFlag(bool flag);
+
+    [[nodiscard]] bool checkHFlag() const;
+    void setHFlag(bool flag);
+
+    [[nodiscard]] bool checkCFlag() const;
+    void setCFlag(bool flag);
+
   private:
     uint8_t A{ 0 };
     uint8_t F{ 0 };
