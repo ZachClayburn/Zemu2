@@ -65,7 +65,6 @@ TEST_CASE("16 bit load instructions") {
             CHECK(bus.read(mergeBytes(addrHighByte, addrLowByte)) == expected);
         }
         SECTION("LD HL, SP+r8") {
-            //TODO I am not testing or setting the flags modified by this opcode
             const int requiredClocks = 12;
             const int instructionLength = 2;
             const uint8_t opcode = 0xF8U;
@@ -103,6 +102,132 @@ TEST_CASE("16 bit load instructions") {
 
             CHECK(registers->getPC() == instructionLength);
             CHECK(registers->getSP() == expected);
+        }
+    }
+    SECTION("Pushes") {
+        const int requiredClocks = 16;
+        const int instructionLength = 1;
+        const uint8_t expectedLow = 0x34U;
+        const uint8_t expectedHigh = 0x12U;
+        const uint16_t stackStart = 5;
+        const uint16_t registerStart = mergeBytes(expectedHigh, expectedLow);
+
+        SECTION("PUSH BC") {
+            const uint8_t opcode = 0xC5U;
+
+            bus.write(0, opcode);
+            registers->setSP(stackStart);
+            registers->setBC(registerStart);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(bus.read(stackStart) == expectedHigh);
+            CHECK(bus.read(stackStart - 1) == expectedLow);
+            CHECK(registers->getSP() == stackStart - 2);
+        }
+        SECTION("PUSH DE") {
+            const uint8_t opcode = 0xD5U;
+
+            bus.write(0, opcode);
+            registers->setSP(stackStart);
+            registers->setDE(registerStart);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(bus.read(stackStart) == expectedHigh);
+            CHECK(bus.read(stackStart - 1) == expectedLow);
+            CHECK(registers->getSP() == stackStart - 2);
+        }
+        SECTION("PUSH HL") {
+            const uint8_t opcode = 0xE5U;
+
+            bus.write(0, opcode);
+            registers->setSP(stackStart);
+            registers->setHL(registerStart);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(bus.read(stackStart) == expectedHigh);
+            CHECK(bus.read(stackStart - 1) == expectedLow);
+            CHECK(registers->getSP() == stackStart - 2);
+        }
+        SECTION("PUSH AF") {
+            const uint8_t opcode = 0xF5U;
+
+            bus.write(0, opcode);
+            registers->setSP(stackStart);
+            registers->setAF(registerStart);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(bus.read(stackStart) == expectedHigh);
+            CHECK(bus.read(stackStart - 1) == expectedLow);
+            CHECK(registers->getSP() == stackStart - 2);
+        }
+    }
+    SECTION("Pops") {
+        const int requiredClocks = 16;
+        const int instructionLength = 1;
+        const uint8_t expectedLow = 0x34U;
+        const uint8_t expectedHigh = 0x12U;
+        const uint16_t stackStart = 5;
+        const uint16_t expected = mergeBytes(expectedHigh, expectedLow);
+
+        SECTION("POP BC") {
+            const uint8_t opcode = 0xC1U;
+
+            bus.write(0, opcode);
+            bus.write(stackStart, expectedLow);
+            bus.write(stackStart + 1, expectedHigh);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getBC() == expected);
+            CHECK(registers->getSP() == stackStart + 2);
+        }
+        SECTION("POP DE") {
+            const uint8_t opcode = 0xC1U;
+
+            bus.write(0, opcode);
+            bus.write(stackStart, expectedLow);
+            bus.write(stackStart + 1, expectedHigh);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getDE() == expected);
+            CHECK(registers->getSP() == stackStart + 2);
+        }
+        SECTION("POP HL") {
+            const uint8_t opcode = 0xC1U;
+
+            bus.write(0, opcode);
+            bus.write(stackStart, expectedLow);
+            bus.write(stackStart + 1, expectedHigh);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getHL() == expected);
+            CHECK(registers->getSP() == stackStart + 2);
+        }
+        SECTION("POP AF") {
+            const uint8_t opcode = 0xC1U;
+
+            bus.write(0, opcode);
+            bus.write(stackStart, expectedLow);
+            bus.write(stackStart + 1, expectedHigh);
+
+            for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
+
+            CHECK(registers->getPC() == instructionLength);
+            CHECK(registers->getAF() == expected);
+            CHECK(registers->getSP() == stackStart + 2);
         }
     }
 }
