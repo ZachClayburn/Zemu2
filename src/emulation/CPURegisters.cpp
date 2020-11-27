@@ -65,6 +65,8 @@ void CPURegisters::decHL() {
 uint16_t CPURegisters::getSP() const { return SP; }
 
 void CPURegisters::setSP(uint16_t value) { SP = value; }
+void CPURegisters::incSP() { ++SP; }
+void CPURegisters::decSP() { --SP; }
 
 uint16_t CPURegisters::getPC() const { return PC; }
 

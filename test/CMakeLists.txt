@@ -12,7 +12,7 @@ target_link_libraries(catch_main PRIVATE project_options)
 
 add_executable(tests 8_bit_load_tests.cpp bitUtils_tests.cpp 16_bit_load_tests.cpp)
 target_link_libraries(tests PRIVATE project_warnings project_options
-        catch_main emulation_test)
+        catch_main emulation_test CONAN_PKG::spdlog)
 
 
 # automatically discover tests that are defined in catch based test files you

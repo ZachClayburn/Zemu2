@@ -1,5 +1,7 @@
 #include "catch2/catch.hpp"
 
+#include "fmt/format.h"
+
 #include "MockBus.h"
 #include "CPURegisters.h"
 #include "bitUtils.h"
@@ -111,12 +113,12 @@ TEST_CASE("16 bit load instructions") {
         const uint8_t expectedHigh = 0x12U;
         const uint16_t stackStart = 5;
         const uint16_t registerStart = mergeBytes(expectedHigh, expectedLow);
+        registers->setSP(stackStart);
 
         SECTION("PUSH BC") {
             const uint8_t opcode = 0xC5U;
 
             bus.write(0, opcode);
-            registers->setSP(stackStart);
             registers->setBC(registerStart);
 
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
@@ -130,7 +132,6 @@ TEST_CASE("16 bit load instructions") {
             const uint8_t opcode = 0xD5U;
 
             bus.write(0, opcode);
-            registers->setSP(stackStart);
             registers->setDE(registerStart);
 
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
@@ -144,7 +145,6 @@ TEST_CASE("16 bit load instructions") {
             const uint8_t opcode = 0xE5U;
 
             bus.write(0, opcode);
-            registers->setSP(stackStart);
             registers->setHL(registerStart);
 
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
@@ -158,7 +158,6 @@ TEST_CASE("16 bit load instructions") {
             const uint8_t opcode = 0xF5U;
 
             bus.write(0, opcode);
-            registers->setSP(stackStart);
             registers->setAF(registerStart);
 
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
@@ -170,13 +169,13 @@ TEST_CASE("16 bit load instructions") {
         }
     }
     SECTION("Pops") {
-        const int requiredClocks = 16;
+        const int requiredClocks = 12;
         const int instructionLength = 1;
         const uint8_t expectedLow = 0x34U;
         const uint8_t expectedHigh = 0x12U;
         const uint16_t stackStart = 5;
         const uint16_t expected = mergeBytes(expectedHigh, expectedLow);
-
+        registers->setSP(stackStart);
         SECTION("POP BC") {
             const uint8_t opcode = 0xC1U;
 
@@ -187,11 +186,12 @@ TEST_CASE("16 bit load instructions") {
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
 
             CHECK(registers->getPC() == instructionLength);
+            INFO(fmt::format(FMT_STRING("{:#06x} == {:#06x}"), registers->getAF(), expected))
             CHECK(registers->getBC() == expected);
             CHECK(registers->getSP() == stackStart + 2);
         }
         SECTION("POP DE") {
-            const uint8_t opcode = 0xC1U;
+            const uint8_t opcode = 0xD1U;
 
             bus.write(0, opcode);
             bus.write(stackStart, expectedLow);
@@ -200,11 +200,12 @@ TEST_CASE("16 bit load instructions") {
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
 
             CHECK(registers->getPC() == instructionLength);
+            INFO(fmt::format(FMT_STRING("{:#06x} == {:#06x}"), registers->getAF(), expected))
             CHECK(registers->getDE() == expected);
             CHECK(registers->getSP() == stackStart + 2);
         }
         SECTION("POP HL") {
-            const uint8_t opcode = 0xC1U;
+            const uint8_t opcode = 0xE1U;
 
             bus.write(0, opcode);
             bus.write(stackStart, expectedLow);
@@ -213,11 +214,12 @@ TEST_CASE("16 bit load instructions") {
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
 
             CHECK(registers->getPC() == instructionLength);
+            INFO(fmt::format(FMT_STRING("{:#06x} == {:#06x}"), registers->getAF(), expected))
             CHECK(registers->getHL() == expected);
             CHECK(registers->getSP() == stackStart + 2);
         }
         SECTION("POP AF") {
-            const uint8_t opcode = 0xC1U;
+            const uint8_t opcode = 0xF1U;
 
             bus.write(0, opcode);
             bus.write(stackStart, expectedLow);
@@ -226,6 +228,7 @@ TEST_CASE("16 bit load instructions") {
             for (int i = 0; i < requiredClocks; ++i) { bus.clock(); }
 
             CHECK(registers->getPC() == instructionLength);
+            INFO(fmt::format(FMT_STRING("{:#06x} == {:#06x}"), registers->getAF(), expected))
             CHECK(registers->getAF() == expected);
             CHECK(registers->getSP() == stackStart + 2);
         }

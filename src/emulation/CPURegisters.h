@@ -47,6 +47,8 @@ class CPURegisters
 
     [[nodiscard]] uint16_t getSP() const;
     void setSP(uint16_t value);
+    void incSP();
+    void decSP();
 
     [[nodiscard]] uint16_t getPC() const;
     void setPC(uint16_t value);

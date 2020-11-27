@@ -18,6 +18,8 @@
 #include "Operations/LoadToRegisterPair.h"
 #include "Operations/LoadFromRegisterPair.h"
 #include "Operations/DirectExtendedLoad.h"
+#include "Operations/Push.h"
+#include "Operations/Pop.h"
 
 static void addLoadToRegisterPair(std::array<OpcodeFun, 256>& opTable,
   uint8_t opCode,
@@ -30,6 +32,24 @@ static void addLoadToRegisterPair(std::array<OpcodeFun, 256>& opTable,
             new DirectExtendedLoad(bus, registers),
             new LoadToRegisterPair(registers, target),
           });
+    };
+}
+
+static void addPush(std::array<OpcodeFun, 256>& opTable,
+  uint8_t opCode,
+  const std::string& label,
+  Push::Target target) {
+    opTable.at(opCode) = [opCode, label, target](IBus* bus, CPURegisters* registers) {
+        return Instruction(opCode, label, { new Push(bus, registers, target) });
+    };
+}
+
+static void addPop(std::array<OpcodeFun, 256>& opTable,
+  uint8_t opCode,
+  const std::string& label,
+  Pop::Target target) {
+    opTable.at(opCode) = [opCode, label, target](IBus* bus, CPURegisters* registers) {
+        return Instruction(opCode, label, { new Pop(bus, registers, target) });
     };
 }
 
@@ -162,6 +182,16 @@ OpTables::OpTables() {
     addRegisterToRegisterLoad(0x7CU, LoadFromRegister::H, LoadToRegister::A, "LD A, H");
     addRegisterToRegisterLoad(0x7DU, LoadFromRegister::L, LoadToRegister::A, "LD A, L");
     addRegisterToRegisterLoad(0x7FU, LoadFromRegister::A, LoadToRegister::A, "LD A, A");
+
+    addPush(opTable, 0xC5U, "PUSH BC", Push::BC);
+    addPush(opTable, 0xD5U, "PUSH DE", Push::DE);
+    addPush(opTable, 0xE5U, "PUSH HL", Push::HL);
+    addPush(opTable, 0xF5U, "PUSH AF", Push::AF);
+
+    addPop(opTable, 0xC1U, "PUSH BC", Pop::BC);
+    addPop(opTable, 0xD1U, "PUSH DE", Pop::DE);
+    addPop(opTable, 0xE1U, "PUSH HL", Pop::HL);
+    addPop(opTable, 0xF1U, "PUSH AF", Pop::AF);
 
     opTable.at(0x36U) = [](IBus* bus, CPURegisters* registers) {
         return Instruction(0x36U,
