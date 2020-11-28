@@ -20,8 +20,10 @@
 #include "Operations/DirectExtendedLoad.h"
 #include "Operations/Push.h"
 #include "Operations/Pop.h"
+#include "Operations/Increment.h"
+#include "Operations/Decrement.h"
 
-static void addLoadToRegisterPair(std::array<OpcodeFun, 256>& opTable,
+static void addLoadToRegisterPair(OpTable_t& opTable,
   uint8_t opCode,
   LoadToRegisterPair::Targets target,
   const std::string& label) {
@@ -35,21 +37,31 @@ static void addLoadToRegisterPair(std::array<OpcodeFun, 256>& opTable,
     };
 }
 
-static void addPush(std::array<OpcodeFun, 256>& opTable,
-  uint8_t opCode,
-  const std::string& label,
-  Push::Target target) {
+static void
+  addPush(OpTable_t& opTable, uint8_t opCode, const std::string& label, Push::Target target) {
     opTable.at(opCode) = [opCode, label, target](IBus* bus, CPURegisters* registers) {
         return Instruction(opCode, label, { new Push(bus, registers, target) });
     };
 }
 
-static void addPop(std::array<OpcodeFun, 256>& opTable,
-  uint8_t opCode,
-  const std::string& label,
-  Pop::Target target) {
+static void
+  addPop(OpTable_t& opTable, uint8_t opCode, const std::string& label, Pop::Target target) {
     opTable.at(opCode) = [opCode, label, target](IBus* bus, CPURegisters* registers) {
         return Instruction(opCode, label, { new Pop(bus, registers, target) });
+    };
+}
+
+static void
+  addInc(OpTable_t& opTable, uint8_t opCode, const std::string& label, Increment::Target target) {
+    opTable.at(opCode) = [opCode, label, target](IBus* /*bus*/, CPURegisters* registers) {
+        return Instruction(opCode, label, { new Increment(registers, target) });
+    };
+}
+
+static void
+addDec(OpTable_t& opTable, uint8_t opCode, const std::string& label, Decrement::Target target) {
+    opTable.at(opCode) = [opCode, label, target](IBus* /*bus*/, CPURegisters* registers) {
+           return Instruction(opCode, label, { new Decrement(registers, target) });
     };
 }
 
@@ -282,6 +294,22 @@ OpTables::OpTables() {
             new LoadToRegisterPair(registers, LoadToRegisterPair::SP),
           });
     };
+
+    addInc(opTable, 0x3C, "INC A", Increment::A);
+    addInc(opTable, 0x04, "INC B", Increment::B);
+    addInc(opTable, 0x0C, "INC C", Increment::C);
+    addInc(opTable, 0x14, "INC D", Increment::D);
+    addInc(opTable, 0x1C, "INC E", Increment::E);
+    addInc(opTable, 0x24, "INC H", Increment::H);
+    addInc(opTable, 0x2C, "INC L", Increment::L);
+
+    addDec(opTable, 0x3D, "DEC A", Decrement::A);
+    addDec(opTable, 0x05, "DEC B", Decrement::B);
+    addDec(opTable, 0x0D, "DEC C", Decrement::C);
+    addDec(opTable, 0x15, "DEC D", Decrement::D);
+    addDec(opTable, 0x1D, "DEC E", Decrement::E);
+    addDec(opTable, 0x25, "DEC H", Decrement::H);
+    addDec(opTable, 0x2D, "DEC L", Decrement::L);
 }
 
 OpcodeFun OpTables::operator[](uint8_t opcode) { return opTable.at(opcode); }

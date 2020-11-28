@@ -11,6 +11,7 @@ class CPURegisters;
 
 
 using OpcodeFun = std::function<Instruction(IBus* const, CPURegisters* const)>;
+using OpTable_t = std::array<OpcodeFun, 256>;
 
 class OpTables
 {
@@ -34,8 +35,8 @@ class OpTables
       const std::string& label);
 
     const uint8_t PREFIX_ADDR{ 0xCBU };
-    std::array<OpcodeFun, 256> opTable;
-    std::array<OpcodeFun, 256> prefixTable;
+    OpTable_t opTable;
+    OpTable_t prefixTable;
 };
 
 

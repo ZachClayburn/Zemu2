@@ -36,7 +36,10 @@ set(
         Operations/IndirectLoadToParameterAndPlusOne.cpp Operations/IndirectLoadToParameterAndPlusOne.h
         Operations/DirectLoadAndAddAsSigned.cpp Operations/DirectLoadAndAddAsSigned.h
         Operations/Push.cpp Operations/Push.h
-        Operations/Pop.cpp Operations/Pop.h)
+        Operations/Pop.cpp Operations/Pop.h
+        Operations/Increment.cpp Operations/Increment.h
+        Operations/Decrement.cpp Operations/Decrement.h
+)
 add_library(emulation ${emulation_SRC})
 add_library(emulation_test ${emulation_SRC} MockBus.cpp MockBus.h)
 

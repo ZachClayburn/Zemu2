@@ -86,7 +86,7 @@ TEST_CASE("8 bit arithmetic instructions") {
                 }
             }
             SECTION("Decrement") {
-                const uint8_t expectedValue = initialValue + 1;
+                const uint8_t expectedValue = initialValue - 1;
                 SECTION("DEC B") {
                     const uint8_t opcode = 0x05U;
                     registers->setB(initialValue);
