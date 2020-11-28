@@ -10,7 +10,12 @@ add_library(catch_main STATIC catch_main.cpp)
 target_link_libraries(catch_main PUBLIC CONAN_PKG::catch2)
 target_link_libraries(catch_main PRIVATE project_options)
 
-add_executable(tests 8_bit_load_tests.cpp bitUtils_tests.cpp 16_bit_load_tests.cpp)
+add_executable(tests
+        8_bit_load_tests.cpp
+        bitUtils_tests.cpp
+        16_bit_load_tests.cpp
+        8_bit_arithmatic_tests.cpp
+        )
 target_link_libraries(tests PRIVATE project_warnings project_options
         catch_main emulation_test CONAN_PKG::spdlog)
 
